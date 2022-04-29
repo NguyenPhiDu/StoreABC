@@ -1,8 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { Image, Dimensions } from 'react-native';
-import { getHeight } from "../../Components/GetDimensions";
 import Home from '../Home';
 import Products from '../Products';
 import Cart from '../Cart';
@@ -11,7 +9,7 @@ import UserIcon from '../../Icons/UserIcon';
 import CartIcon from '../../Icons/CartIcon';
 import ProductsIcon from '../../Icons/ProductsIcon';
 import HomeIcon from '../../Icons/HomeIcon';
-const { height } = Dimensions.get('window')
+import { Colors } from '../../Utils/Color';
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -23,21 +21,18 @@ export default Navigate = () => {
     return (
         <Tab.Navigator
             barStyle={{
-                // height: getHeight(height, 70),
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                //alignItems: 'center',
-                paddingVertical: 10,
-                backgroundColor: "white",
+                // borderTopLeftRadius: 15,
+                // borderTopRightRadius: 15,
+                paddingVertical: 7,
+                //borderTopColor: Colors.gray,
+                backgroundColor: Colors.whiteblue,
             }}
-            tabBarBadge={1}
-            activeColor="red"
-            inactiveColor="#000"
+            //tabBarBadge={1}
+            activeColor={Colors.orange}
+            inactiveColor={Colors.black}
             initialRouteName="HomeStack" >
             <Tab.Screen
                 name="HomeStack"
-                //barLabel="home"
-                //component={Home}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <HomeIcon color={color} height={25} width={25} />
@@ -51,7 +46,6 @@ export default Navigate = () => {
             </Tab.Screen>
             <Tab.Screen
                 name="ProductsStack"
-                //component={Products}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <ProductsIcon color={color} height={25} width={25} />
@@ -81,7 +75,7 @@ export default Navigate = () => {
                 options={{
                     tabBarIcon: ({ color }) => (
                         <UserIcon color={color} height={25} width={25} />),
-                        tabBarLabel:"Profile"
+                    tabBarLabel: "Profile"
                 }}>
                 {() => (
                     <UserStack.Navigator initialRouteName="User">

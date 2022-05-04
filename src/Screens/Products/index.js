@@ -11,7 +11,7 @@ import oppo from '../../static/images/logoOppo.png'
 import TheFirmItem from '../../Components/TheFirmItem';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
-import FilTer from '../../Icons/FilterIcon';
+import FilterIcon from '../../Icons/FilterIcon';
 
 
 
@@ -68,7 +68,7 @@ export default Products = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.Fil}>
                 <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                    <FilTer color={Colors.orange} height={24} width={24} />
+                    <FilterIcon color={Colors.orange} height={24} width={24} />
                     <Text style={styles.SapXep}>Bộ lọc</Text>
                 </TouchableOpacity>
                 <View style={{ flex: 1, alignItems: 'flex-end', flexDirection: 'row-reverse' }}>
@@ -87,7 +87,7 @@ export default Products = () => {
             </View>
             <View style={styles.Fil}>
                 <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                    <FilTer color={Colors.orange} height={24} width={24} />
+                    <FilterIcon color={Colors.orange} height={24} width={24} />
                     <Text style={styles.SapXep}>Bộ lọc</Text>
                 </TouchableOpacity>
                 <View style={{ flex: 1, alignItems: 'flex-end', flexDirection: 'row-reverse' }}>

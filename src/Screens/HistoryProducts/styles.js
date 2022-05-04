@@ -6,11 +6,4 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.gray2
     },
-    Logout: {
-        flex: 1,
-        marginVertical: 15,
-        backgroundColor: Colors.white,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
 });

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import SearchIcon from '../../Icons/SearchIcon';
+import SmartShopIcon from '../../Icons/SmartShopIcon';
 import samsung from '../../static/images/logoSamsung.png'
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
 import xiaomi from '../../static/images/logoXiaomi.png'
@@ -13,6 +14,10 @@ import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
 
 export default Home = ({ navigation }) => {
+    // const [id, setId] = useState('1')
+    // const [nameProduct, setnameProduct] = useState('1')
+    // const [price, setPrice] = useState(1)
+
     const DATA = [{ id: '1', img: samsung }, { id: '2', img: xiaomi },
     { id: '3', img: iphone }, { id: '4', img: nokia }, { id: '5', img: oppo }]
 
@@ -34,8 +39,18 @@ export default Home = ({ navigation }) => {
         name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
         price: '10000'
     }];
+    useEffect(() => {
+       
+    }, [])
+
     return (
         <SafeAreaView style={styles.container}>
+            <View style={{
+                flex: 1, alignItems: 'flex-end', flexDirection: 'row',
+                justifyContent: 'center'
+            }}>
+                <SmartShopIcon color={Colors.orange} width={158} height={19} />
+            </View>
             <View style={styles.timKiem}>
                 <SearchIcon color={Colors.gray} />
                 <TextInput style={styles.inputSearch}
@@ -48,7 +63,8 @@ export default Home = ({ navigation }) => {
                         horizontal
                         data={DATA}
                         renderItem={({ item }) => (
-                            <TheFirmItem img={item.img} />
+                            <TheFirmItem img={item.img}
+                                onPress={() => navigation.navigate('ProductsStack')} />
                         )}
                         keyExtractor={item => item.id}
                     />
@@ -67,7 +83,8 @@ export default Home = ({ navigation }) => {
                         horizontal
                         data={DATA2}
                         renderItem={({ item }) => (
-                            <ProductsItem img={item.img} name={item.name} price={item.price} />
+                            <ProductsItem img={item.img} name={item.name} price={item.price}
+                                onPress={() => navigation.navigate('ProductDetails')} />
                         )}
                         keyExtractor={item => item.id}
                     />

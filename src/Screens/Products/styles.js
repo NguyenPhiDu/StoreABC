@@ -6,14 +6,16 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 15,
         backgroundColor: Colors.white,
-        paddingBottom:70
+        paddingBottom:70,
+        alignItems:'center'
     },
     Fil: {
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderBottomColor: Colors.gray,
         paddingVertical: 15,
-        marginBottom:10
+        marginBottom:10,
+         alignItems:'center'
     },
     SapXep: {
         paddingLeft:5,

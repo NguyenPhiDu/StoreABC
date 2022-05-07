@@ -44,9 +44,10 @@ export default Home = ({ navigation }) => {
     }, [])
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+        <SafeAreaView >
             <View style={{
-                flex: 1, alignItems: 'flex-end', flexDirection: 'row',
+                alignItems: 'flex-end', flexDirection: 'row',
                 justifyContent: 'center'
             }}>
                 <SmartShopIcon color={Colors.orange} width={158} height={19} />
@@ -110,5 +111,6 @@ export default Home = ({ navigation }) => {
                 </View>
             </ScrollView>
         </SafeAreaView >
+        </View>
     )
 };

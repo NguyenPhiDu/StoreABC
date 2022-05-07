@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     Fil: {
+        paddingHorizontal: 15,
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderBottomColor: Colors.gray,

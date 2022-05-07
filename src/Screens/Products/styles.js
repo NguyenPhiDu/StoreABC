@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         alignItems:'center'
     },
     Fil: {
+        paddingHorizontal: 15,
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderBottomColor: Colors.gray,

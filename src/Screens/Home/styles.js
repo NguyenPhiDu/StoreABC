@@ -3,11 +3,13 @@ import { Colors } from '../../Utils/Color';
 
 export const styles = StyleSheet.create({
     container: {
-        height:"100%",
+        flex: 1,
+        marginTop: 10,
         paddingHorizontal: 15,
         backgroundColor: Colors.white,
     },
     timKiem: {
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
         borderColor: Colors.gray,

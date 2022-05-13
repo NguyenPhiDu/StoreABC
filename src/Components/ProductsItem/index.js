@@ -17,8 +17,9 @@ export default ProductsItem = (props) => {
             <View style={{ flex: 0.5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                     <Text style={styles.price}>{props.price}đ</Text>
-                    <TouchableOpacity style={{ padding: 2 }}>
-                        <AddIcon color={Colors.gray}></AddIcon>
+                    <TouchableOpacity style={{ padding: 2 }}
+                        onPress={props.onPressAdd}>
+                        <AddIcon color={Colors.purple}></AddIcon>
                     </TouchableOpacity>
                 </View>
             </View>

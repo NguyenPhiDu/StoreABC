@@ -4,9 +4,12 @@ import { Colors } from '../../Utils/Color';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 10,
+        paddingTop: 15,
         paddingHorizontal: 15,
         backgroundColor: Colors.white,
+        alignItems: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     timKiem: {
         height: 50,
@@ -16,7 +19,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         marginTop: 20,
-        marginBottom:10,
+        marginBottom: 10,
         paddingHorizontal: 10,
         paddingRight: 20,
         backgroundColor: Colors.white
@@ -31,9 +34,9 @@ export const styles = StyleSheet.create({
         fontSize: 17,
     },
     viewAll: {
-        color: Colors.orange,
+        color: Colors.purple,
         fontSize: 12,
-        borderColor: Colors.orange,
+        borderColor: Colors.purple,
         borderBottomWidth: 1,
 
     },

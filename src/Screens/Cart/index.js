@@ -4,6 +4,7 @@ import { Colors } from '../../Utils/Color';
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
 import { styles } from './styles';
 import CartItem from '../../Components/CartItem';
+import ButtonContrl from '../../Components/ButtonContrl';
 import DeleteIcon from '../../Icons/DeleteIcon';
 
 export default Cart = ({ navigation }) => {
@@ -22,6 +23,18 @@ export default Cart = ({ navigation }) => {
     },
     {
         id: '3',
+        img: GalaxyS22,
+        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
+        price: '10000'
+    },
+    {
+        id: '4',
+        img: GalaxyS22,
+        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
+        price: '10000'
+    },
+    {
+        id: '5',
         img: GalaxyS22,
         name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
         price: '10000'
@@ -46,6 +59,11 @@ export default Cart = ({ navigation }) => {
                     )}
                     keyExtractor={item => item.id}
                 />
+            </View>
+            <View style={{ margin: 5 }}>
+                <ButtonContrl
+                    title={'Đặt hàng'} color={Colors.white}
+                    onPress={() => navigation.navigate('Order')} />
             </View>
         </SafeAreaView >
     )

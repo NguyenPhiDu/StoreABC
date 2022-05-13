@@ -4,7 +4,7 @@ import { styles } from './styles';
 import RightIcon from '../../Icons/RightIcon'
 import { Colors } from '../../Utils/Color';
 
-export default ProfileControl = (props) => {
+export default ButtonProfileContrl = (props) => {
     return (
         <TouchableOpacity style={styles.container}
             onPress={props.onPress}>

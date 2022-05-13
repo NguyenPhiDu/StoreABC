@@ -1,11 +1,11 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
-export default function NotificationIcon({ color }) {
+export default function NotificationIcon({ color, width, height }) {
     return (
         <Svg
-            width={17}
-            height={19}
+            width={width}
+            height={height}
             viewBox="0 0 17 19"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

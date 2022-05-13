@@ -14,9 +14,6 @@ import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
 
 export default Home = ({ navigation }) => {
-    // const [id, setId] = useState('1')
-    // const [nameProduct, setnameProduct] = useState('1')
-    // const [price, setPrice] = useState(1)
 
     const DATA = [{ id: '1', img: samsung }, { id: '2', img: xiaomi },
     { id: '3', img: iphone }, { id: '4', img: nokia }, { id: '5', img: oppo }]
@@ -40,77 +37,78 @@ export default Home = ({ navigation }) => {
         price: '10000'
     }];
     useEffect(() => {
-       
+
     }, [])
 
     return (
         <View style={styles.container}>
-        <SafeAreaView >
-            <View style={{
-                alignItems: 'flex-end', flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <SmartShopIcon color={Colors.orange} width={158} height={19} />
-            </View>
-            <View style={styles.timKiem}>
-                <SearchIcon color={Colors.gray} />
-                <TextInput style={styles.inputSearch}
-                    placeholder='Tìm Kiếm...' />
-            </View>
-            <ScrollView>
-                <Text style={styles.ThuongHieu}>Hãng</Text>
-                <View>
-                    <FlatList
-                        horizontal
-                        data={DATA}
-                        renderItem={({ item }) => (
-                            <TheFirmItem img={item.img}
-                                onPress={() => navigation.navigate('ProductsStack')} />
-                        )}
-                        keyExtractor={item => item.id}
-                    />
+            <SafeAreaView >
+                <View style={{
+                    alignItems: 'flex-end', flexDirection: 'row',
+                    justifyContent: 'center'
+                }}>
+                    <SmartShopIcon color={Colors.orange} width={158} height={19} />
                 </View>
-                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                    <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
-                    <View style={styles.styleViewAll}>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('ProductsStack')}>
-                            <Text style={styles.viewAll}>Xem tất cả</Text>
-                        </TouchableOpacity>
+                <View style={styles.timKiem}>
+                    <SearchIcon color={Colors.gray} />
+                    <TextInput style={styles.inputSearch}
+                        placeholder='Tìm Kiếm...' />
+                </View>
+                <ScrollView>
+                    <Text style={styles.ThuongHieu}>Hãng</Text>
+                    <View>
+                        <FlatList
+                            horizontal
+                            data={DATA}
+                            renderItem={({ item }) => (
+                                <TheFirmItem img={item.img}
+                                    onPress={() => navigation.navigate('ProductsStack')} />
+                            )}
+                            keyExtractor={item => item.id}
+                        />
                     </View>
-                </View>
-                <View style={{ flex: 1 }}>
-                    <FlatList
-                        horizontal
-                        data={DATA2}
-                        renderItem={({ item }) => (
-                            <ProductsItem img={item.img} name={item.name} price={item.price}
-                                onPress={() => navigation.navigate('ProductDetails')} />
-                        )}
-                        keyExtractor={item => item.id}
-                    />
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                    <Text style={styles.ThuongHieu}>Xu hướng mua sắm</Text>
-                    <View style={styles.styleViewAll}>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('ProductsStack')}>
-                            <Text style={styles.viewAll}>Xem tất cả</Text>
-                        </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                        <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
+                        <View style={styles.styleViewAll}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('ProductsStack')}>
+                                <Text style={styles.viewAll}>Xem tất cả</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <View style={{ flex: 1, marginVertical: 10 }}>
-                    <FlatList
-                        horizontal
-                        data={DATA2}
-                        renderItem={({ item }) => (
-                            <ProductsItem img={item.img} name={item.name} price={item.price} />
-                        )}
-                        keyExtractor={item => item.id}
-                    />
-                </View>
-            </ScrollView>
-        </SafeAreaView >
+                    <View style={{ flex: 1 }}>
+                        <FlatList
+                            horizontal
+                            data={DATA2}
+                            renderItem={({ item }) => (
+                                <ProductsItem img={item.img} name={item.name} price={item.price}
+                                    onPress={() => navigation.navigate('ProductDetails')} />
+                            )}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+                        <Text style={styles.ThuongHieu}>Xu hướng mua sắm</Text>
+                        <View style={styles.styleViewAll}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('ProductsStack')}>
+                                <Text style={styles.viewAll}>Xem tất cả</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, marginVertical: 10 }}>
+                        <FlatList
+                            horizontal
+                            data={DATA2}
+                            renderItem={({ item }) => (
+                                <ProductsItem img={item.img} name={item.name} price={item.price}
+                                    onPress={() => navigation.navigate('ProductDetails')} />
+                            )}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </ScrollView>
+            </SafeAreaView >
         </View>
     )
 };

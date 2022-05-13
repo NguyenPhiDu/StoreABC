@@ -8,8 +8,6 @@ import User from '../User';
 import EditProfile from '../EditProfile';
 import NotifiCation from '../NotifiCation';
 import HistoryProducts from '../HistoryProducts';
-import ResetPass from '../ResetPass';
-import ProductDetails from '../ProductDetails';
 import UserIcon from '../../Icons/UserIcon';
 import CartIcon from '../../Icons/CartIcon';
 import ProductsIcon from '../../Icons/ProductsIcon';
@@ -46,7 +44,6 @@ export default Navigate = () => {
                 {() => (
                     <HomeStack.Navigator >
                         <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-                        <HomeStack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
                     </HomeStack.Navigator>
                 )}
             </Tab.Screen>
@@ -73,7 +70,6 @@ export default Navigate = () => {
                 {() => (
                     <CartStack.Navigator>
                         <CartStack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
-                        <CartStack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
                     </CartStack.Navigator>
                 )}
             </Tab.Screen>
@@ -90,7 +86,6 @@ export default Navigate = () => {
                         <UserStack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
                         <UserStack.Screen name="NotifiCation" component={NotifiCation} options={{ headerShown: false }} />
                         <UserStack.Screen name="HistoryProducts" component={HistoryProducts} options={{ headerShown: false }} />
-                        <UserStack.Screen name="ResetPass" component={ResetPass} options={{ headerShown: false }} />
                     </UserStack.Navigator>
                 )}
             </Tab.Screen>

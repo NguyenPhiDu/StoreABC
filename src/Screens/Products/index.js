@@ -15,7 +15,7 @@ import FilterIcon from '../../Icons/FilterIcon';
 
 
 
-export default Products = () => {
+export default Products = ({ navigation }) => {
     const DATA2 = [{
         id: '1',
         img: GalaxyS22,
@@ -80,7 +80,8 @@ export default Products = () => {
                     numColumns={2}
                     data={DATA2}
                     renderItem={({ item }) => (
-                        <ProductsItem img={item.img} name={item.name} price={item.price} />
+                        <ProductsItem img={item.img} name={item.name} price={item.price}
+                            onPress={() => navigation.navigate('ProductDetails')} />
                     )}
                     keyExtractor={item => item.id}
                 />

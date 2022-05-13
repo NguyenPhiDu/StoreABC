@@ -18,24 +18,29 @@ export default Cartitem = (props) => {
                 <View style={{ flex: 1 }}>
                     <Text style={styles.name}>{props.name}</Text>
                 </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ color: Colors.black, fontSize: 13 }}>Màu : </Text>
+                    <Text style={{ color: Colors.black, fontSize: 13 }}>{props.colorProduct}</Text>
+                </View>
                 <Text style={styles.price}>{props.price}đ</Text>
                 <View style={{ flex: 1, flexDirection: 'row', }}>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <TouchableOpacity style={{ padding: 2 }}
                             onPress={() => count < 1 ? setCount(0) : setCount(count - 1)}>
-                            <RemoveIcon color={Colors.gray} />
+                            <RemoveIcon color={Colors.purple} />
                         </TouchableOpacity>
                         <Text style={{
-                            color: Colors.gray, paddingHorizontal: 7, fontWeight: 'bold',
+                            color: Colors.purple, paddingHorizontal: 7, fontWeight: 'bold',
                             fontSize: 15
                         }}>{count}</Text>
                         <TouchableOpacity style={{ padding: 2 }}
                             onPress={() => setCount(count + 1)}>
-                            <AddIcon color={Colors.gray}></AddIcon>
+                            <AddIcon color={Colors.purple}></AddIcon>
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-                        <TouchableOpacity style={{ padding: 2 }}>
+                        <TouchableOpacity style={{ padding: 2 }}
+                            onPressDelete={props.onPressDelete}>
                             <DeleteIcon color={Colors.orange} />
                         </TouchableOpacity>
                     </View>

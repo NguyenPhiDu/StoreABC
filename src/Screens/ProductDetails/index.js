@@ -1,11 +1,59 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import React, { useState } from 'react';
+import { SafeAreaView, FlatList, View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import HeaderColorPurple from '../../Components/HeaderColorPurple';
 import ButtonContrl from '../../Components/ButtonContrl';
+import RomItem from '../../Components/RomItem';
 
 export default ProductDetails = ({ navigation }) => {
+    const [selectItem, setSelectItem] = useState({})
+    const DATA2 = [{
+        id: '1',
+        name: '128GB',
+        price: '20000000'
+    },
+    {
+        id: '2',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '3',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '4',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '5',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '6',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '7',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '8',
+        name: '128GB',
+        price: '10000'
+    },
+    {
+        id: '9',
+        name: '128GB',
+        price: '10000'
+    },
+    ];
     return (
         <SafeAreaView style={styles.container}>
             <HeaderColorPurple navigation={navigation} title={'Chi tiết sản phẩm'} />
@@ -19,8 +67,14 @@ export default ProductDetails = ({ navigation }) => {
                     </View>
                     <View style={{ paddingHorizontal: 20 }}>
                         <Text style={{ color: Colors.black, fontSize: 17, fontWeight: 'bold' }}>Điện thoại Samsung Galaxy S22 Ultra 5G 128GB</Text>
-                        <View style={{ marginVertical: 10 }}>
-                            <Text style={{ color: Colors.black, fontSize: 17, fontWeight: 'bold' }}>Điện thoại Samsung</Text>
+                        <View style={{ marginVertical: 10, flexDirection: "row", flexWrap: "wrap" }}>
+                            {DATA2?.map((item) => (
+                                <RomItem
+                                    selectItem={selectItem}
+                                    setSelectItem={setSelectItem}
+                                    item={item} />
+                            ))
+                            }
                         </View>
                         <View style={{ marginBottom: 40 }}>
                             <Text style={{ color: Colors.red, fontSize: 20, fontWeight: 'bold' }}>20000000đ</Text>
@@ -69,6 +123,7 @@ export default ProductDetails = ({ navigation }) => {
             </ScrollView>
             <View style={{ margin: 20 }}>
                 <ButtonContrl
+                 onPress={() => console.log(selectItem.name)}
                     title={'Thêm vào giỏ hàng'} color={Colors.white} />
             </View>
         </SafeAreaView>

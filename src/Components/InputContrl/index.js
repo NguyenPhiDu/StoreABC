@@ -7,8 +7,8 @@ export default InputControl = (props) => {
     return (
         <TextInput
             style={styles.container}
-            onChangeText={props.onChangeText}
             value={props.value}
+            onChangeText={props.onChangeText}
             placeholder={props.placeholder}
             placeholderTextColor={Colors.gray}
             secureTextEntry={props.secureTextEntry}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useState, useContext, useEffect } from 'react';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import ButtonProfileContrl from '../../Components/ButtonProfileContrl';
 import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
@@ -10,11 +10,28 @@ import CartIcon from '../../Icons/CartIcon';
 import ReceiptIcon from '../../Icons/ReceiptIcon';
 import UpdateIcon from '../../Icons/UpdateIcon';
 import LockIcon from '../../Icons/LockIcon';
-
+import { AuthContext } from '../../Components/Redux/AuthContext';
+import { database } from '../../Utils/firebase-Config';
+import { createProduct } from '../../Utils/firebase';
 
 export default User = ({ navigation }) => {
-    const [temp, setTemp] = useState(false)
-    const [temp2, setTemp2] = useState(false)
+    const { token } = useContext(AuthContext)
+    const { setToken } = useContext(AuthContext)
+    const [name, setName] = useState("")
+    const GetAccount = () => {
+        database
+            .ref(`accounts/` + token.accountId)
+            .on('value', (data) => {
+                setName(data.val().name)
+            })
+    }
+    useEffect(() => {
+        token.accountId != "" && GetAccount()
+        // const willFocusSubscription = navigation.addListener('focus', () => {
+        //     token.accountId != "" && GetAccount()
+        // })
+        // return willFocusSubscription
+    }, [token.accountId])
     return (
         <SafeAreaView style={styles.container}>
             <View style={{
@@ -31,11 +48,11 @@ export default User = ({ navigation }) => {
                         source={require('../../static/images/GalaxyS22.jpg')} />
                 </View>
                 <View style={{ flex: 2 }}>
-                    <Text style={{ color: Colors.black, fontSize: 15, fontWeight: 'bold' }}>Xin chào</Text>
+                    <Text style={{ color: Colors.black, fontSize: 13, fontWeight: 'bold' }}>Xin chào</Text>
                     {
-                        temp2 == true ?
+                        token.accountId != "" ?
                             <>
-                                <Text style={{ color: Colors.orange, fontSize: 20 }}>Hứa Thành Vinh</Text>
+                                <Text style={{ color: Colors.orange, fontSize: 20, fontWeight: 'bold' }}>{name}</Text>
                             </> :
                             <>
                                 <TouchableOpacity style={{
@@ -52,7 +69,7 @@ export default User = ({ navigation }) => {
                 </View>
             </View>
             {
-                temp == false ?
+                token.accountId != "" && token.accountName == "admin@gmail.com" ?
                     <>
                         <View style={{ flex: 5 }}>
                             <ButtonProfileContrl
@@ -83,23 +100,56 @@ export default User = ({ navigation }) => {
                             <ButtonProfileContrl
                                 title={'Thông tin cá nhân'}
                                 icon={<UserIcon color={Colors.black} height={24} width={24} />}
-                                onPress={() => navigation.navigate('EditProfile')} />
+                                onPress={() => {
+                                    if (token.accountId != "" && token.accountName != "admin@gmail.com") {
+                                        navigation.navigate('EditProfile')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                             <ButtonProfileContrl title={'Thông báo'}
                                 icon={<NotificationIcon color={Colors.black} width={24} height={24} />}
-                                onPress={() => navigation.navigate('NotifiCation')} />
+                                onPress={() => {
+                                    if (token.accountId != "" && token.accountName != "admin@gmail.com") {
+                                        navigation.navigate('NotifiCation')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                             <ButtonProfileContrl title={'Giỏ hàng'}
                                 icon={<CartIcon color={Colors.black} width={24} height={24} />}
-                                onPress={() => navigation.navigate('CartStack')} />
+                                onPress={() => {
+                                    if (token.accountId != "" && token.accountName != "admin@gmail.com") {
+                                        navigation.navigate('CartStack')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                             <ButtonProfileContrl title={'Lịch sử mua hàng'}
                                 icon={<UpdateIcon color={Colors.black} />}
-                                onPress={() => navigation.navigate('HistoryProducts')} />
+                                onPress={() => {
+                                    if (token.accountId != "" && token.accountName != "admin@gmail.com") {
+                                        navigation.navigate('HistoryProducts')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                             <ButtonProfileContrl title={'Đổi mật khẩu'}
                                 icon={<LockIcon color={Colors.black} />}
-                                onPress={() => navigation.navigate('ResetPass')} />
+                                onPress={() => {
+                                    if (token.accountId != "" && token.accountName != "admin@gmail.com") {
+                                        navigation.navigate('ResetPass')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                         </View>
                     </>
             }
-            <TouchableOpacity style={styles.Logout}>
+            <TouchableOpacity style={styles.Logout}
+                onPress={() =>
+                    setToken({ accountId: "", accountName: "" })
+                }>
                 <Text style={{ color: Colors.black, fontWeight: 'bold', fontSize: 20 }}>Đăng xuất</Text>
             </TouchableOpacity>
         </SafeAreaView>

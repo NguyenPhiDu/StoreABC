@@ -9,7 +9,7 @@ export default ProductsItem = (props) => {
         <TouchableOpacity style={styles.item}
             onPress={props.onPress}>
             <View style={styles.viewImg}>
-                <Image style={styles.imgLogo} source={props.img} />
+                <Image style={styles.imgLogo} source={{ uri: props.img }} />
             </View>
             <View style={{ flex: 2 }}>
                 <Text style={styles.name}>{props.name}</Text>

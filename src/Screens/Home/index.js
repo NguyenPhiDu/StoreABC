@@ -12,6 +12,7 @@ import oppo from '../../static/images/logoOppo.png'
 import TheFirmItem from '../../Components/TheFirmItem';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
+import { database } from '../../Utils/firebase-Config';
 
 export default Home = ({ navigation }) => {
 
@@ -36,8 +37,21 @@ export default Home = ({ navigation }) => {
         name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
         price: '10000'
     }];
+    const [product, setProduct] = useState([])
+    const GetProduct = () => {
+        database
+            .ref(`products/`)
+            .on('value', (data) => {
+                let responselist = Object.values(data.val())
+                setProduct(responselist)
+            })
+    }
     useEffect(() => {
-
+        GetProduct()
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            GetProduct()
+        })
+        return willFocusSubscription
     }, [])
 
     return (
@@ -79,10 +93,10 @@ export default Home = ({ navigation }) => {
                     <View style={{ flex: 1 }}>
                         <FlatList
                             horizontal
-                            data={DATA2}
+                            data={product}
                             renderItem={({ item }) => (
                                 <ProductsItem img={item.img} name={item.name} price={item.price}
-                                    onPress={() => navigation.navigate('ProductDetails')} />
+                                    onPress={() => navigation.navigate('ProductDetails', item.id)} />
                             )}
                             keyExtractor={item => item.id}
                         />
@@ -99,10 +113,10 @@ export default Home = ({ navigation }) => {
                     <View style={{ flex: 1, marginVertical: 10 }}>
                         <FlatList
                             horizontal
-                            data={DATA2}
+                            data={product}
                             renderItem={({ item }) => (
                                 <ProductsItem img={item.img} name={item.name} price={item.price}
-                                    onPress={() => navigation.navigate('ProductDetails')} />
+                                    onPress={() => navigation.navigate('ProductDetails', item.id)} />
                             )}
                             keyExtractor={item => item.id}
                         />

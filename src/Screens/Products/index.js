@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import SearchIcon from '../../Icons/SearchIcon';
@@ -12,58 +12,25 @@ import TheFirmItem from '../../Components/TheFirmItem';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
 import FilterIcon from '../../Icons/FilterIcon';
-
-
+import { database } from '../../Utils/firebase-Config';
 
 export default Products = ({ navigation }) => {
-    const DATA2 = [{
-        id: '1',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '20000000'
-    },
-    {
-        id: '2',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '3',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '4',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '5',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '6',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '7',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '8',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    }];
+    const [product, setProduct] = useState([])
+    const GetProduct = () => {
+        database
+            .ref(`products/`)
+            .on('value', (data) => {
+                let responselist = Object.values(data.val())
+                setProduct(responselist)
+            })
+    }
+    useEffect(() => {
+        GetProduct()
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            GetProduct()
+        })
+        return willFocusSubscription
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.Fil}>
@@ -78,10 +45,10 @@ export default Products = ({ navigation }) => {
             <View>
                 <FlatList
                     numColumns={2}
-                    data={DATA2}
+                    data={product}
                     renderItem={({ item }) => (
-                        <ProductsItem img={item.img} name={item.name} price={item.price}
-                            onPress={() => navigation.navigate('ProductDetails')} />
+                        <ProductsItem name={item.name} img={item.img} price={item.price}
+                            onPress={() => navigation.navigate('ProductDetails', item.id)} />
                     )}
                     keyExtractor={item => item.id}
                 />

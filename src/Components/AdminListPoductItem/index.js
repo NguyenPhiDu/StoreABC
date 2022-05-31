@@ -9,7 +9,7 @@ export default AdminListPoductItem = (props) => {
         <TouchableOpacity style={styles.item}
             onPress={props.onPress}>
             <View style={styles.viewImg}>
-                <Image style={styles.imgLogo} source={props.img} />
+                <Image style={styles.imgLogo} source={{ uri: props.img }} />
             </View>
             <View style={{ flex: 2, paddingLeft: 20, justifyContent: 'center' }}>
                 <View style={{ flex: 1 }}>
@@ -18,7 +18,7 @@ export default AdminListPoductItem = (props) => {
                 <View style={{ flex: 1, }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: Colors.black, fontSize: 13 }}>Bộ nhớ trong : </Text>
-                        <Text style={{ color: Colors.black, fontSize: 13 }}>{props.internalMemory}</Text>
+                        <Text style={{ color: Colors.black, fontSize: 13 }}>{props.rom}GB</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: Colors.black, fontSize: 13 }}>Số lượng : </Text>
@@ -28,7 +28,7 @@ export default AdminListPoductItem = (props) => {
                         <Text style={{ flex: 1, color: Colors.black, fontSize: 13 }}>Đơn giá : </Text>
                         <Text style={{ flex: 2, color: Colors.red, fontSize: 13, fontWeight: 'bold' }}>{props.price}đ</Text>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row-reverse', alignSelf: 'flex-end' }}
-                            onPressDelete={props.onPressDelete}>
+                            onPress={props.onPressDelete}>
                             <DeleteIcon color={Colors.orange}></DeleteIcon>
                         </TouchableOpacity>
                     </View>

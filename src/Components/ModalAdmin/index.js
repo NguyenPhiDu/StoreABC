@@ -32,9 +32,9 @@ export default ModalAdmin = (props) => {
                         keyboardType={props.keyboardType} />
                     <View style={{ marginTop: 10 }}>
                         <ButtonContrl
-                            title={'Lưu'}
+                            title={'Xác nhận'}
                             color={Colors.white}
-                            onPress={() => { props.onPress }} />
+                            onPress={props.onPress} />
                     </View>
                 </View>
             </TouchableOpacity>

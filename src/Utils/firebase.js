@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Alert } from "react-native";
-import { database, auth } from "./firebase-Config"
-
+import { auth } from "./firebase-Config"
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
+import { sendPasswordResetEmail } from 'firebase/auth';
+const database = getDatabase()
 export const createAccount = (data) => {
-    const db_account = database.ref("accounts" + "/" + data.uid)
+    const db_account = ref(database, "accounts" + "/" + data.uid)
     var account = {
         accountId: data.uid,
         name: "Khách hàng",
@@ -18,7 +20,7 @@ export const createAccount = (data) => {
 
 export const UpdateAccount = (data) => {
     try {
-        const db_account = database.ref("accounts" + "/" + data.uid)
+        const db_account = ref(database, "accounts" + "/" + data.uid)
         var account = {
             accountId: data.uid,
             name: data.name,
@@ -36,7 +38,7 @@ export const UpdateAccount = (data) => {
 }
 export const UpdateProduct = (data) => {
     try {
-        const db_product = database.ref("products" + "/" + data.id)
+        const db_product = ref(database, "products" + "/" + data.id)
         var product = {
             id: data.id,
             name: data.name,
@@ -53,7 +55,7 @@ export const UpdateProduct = (data) => {
             price: data.price,
             firm: data.firm,
         };
-        db_product.set(product)
+        set(db_product, product)
         Alert.alert("Thông báo", "Cập nhật thành công")
     } catch (error) {
         alert(error)
@@ -61,8 +63,7 @@ export const UpdateProduct = (data) => {
 }
 
 export const forgotPassword = (email) => {
-    auth
-        .sendPasswordResetEmail(email)
+    sendPasswordResetEmail(auth, email)
         .then(() => {
             alert('Yêu cầu đã được gửi đến email của bạn')
         }).catch((e) => {
@@ -73,10 +74,14 @@ export const forgotPassword = (email) => {
 
 export const createProduct = (data) => {
     try {
-        const db_product = database.ref("products/").push()
+        var db_product = ref(database, 'products/')
+        const newReference = push(db_product);
+        db_product = ref(database, 'products/' + newReference.key);
         var product = {
-            id: db_product.key,
-            img: data.img,
+            id: newReference.key,
+            img1: data.img1,
+            img2: data.img2,
+            img3: data.img3,
             name: data.name,
             quantity: data.quantity,
             display: data.display,
@@ -91,7 +96,7 @@ export const createProduct = (data) => {
             price: data.price,
             firm: data.firm,
         };
-        db_product.set(product)
+        set(db_product, product)
         Alert.alert("Thông báo", "Tạo sản phẩm thành công")
     } catch (error) {
         alert(error)
@@ -100,8 +105,7 @@ export const createProduct = (data) => {
 
 export const del = (data) => {
     try {
-        database
-            .ref(`/${data.ref}/` + data.id).remove();
+        set(ref(database, `/${data.ref}/` + data.id), null)
     } catch (error) {
         alert(error)
     }
@@ -109,9 +113,11 @@ export const del = (data) => {
 
 export const createCart = (data) => {
     try {
-        const db_cart = database.ref("carts/").push()
+        const db_cart = ref(database, "carts/")
+        const newReference = push(db_cart);
+        db_cart = ref(database, 'carts/' + newReference.key);
         var cart = {
-            id: db_cart.key,
+            id: newReference.key,
             productId: data.id,
             productName: data.name,
             userId: data.userId,

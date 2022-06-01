@@ -11,19 +11,20 @@ import ReceiptIcon from '../../Icons/ReceiptIcon';
 import UpdateIcon from '../../Icons/UpdateIcon';
 import LockIcon from '../../Icons/LockIcon';
 import { AuthContext } from '../../Components/Redux/AuthContext';
-import { database } from '../../Utils/firebase-Config';
+import { database, auth } from '../../Utils/firebase-Config';
 import { createProduct } from '../../Utils/firebase';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
+import { updatePassword } from 'firebase/auth';
 
 export default User = ({ navigation }) => {
     const { token } = useContext(AuthContext)
     const { setToken } = useContext(AuthContext)
     const [name, setName] = useState("")
     const GetAccount = () => {
-        database
-            .ref(`accounts/` + token.accountId)
-            .on('value', (data) => {
-                setName(data.val().name)
-            })
+        const Ref = ref(getDatabase(), `accounts/` + token.accountId)
+        onValue(Ref, (data) => {
+            setName(data.val().name)
+        })
     }
     useEffect(() => {
         token.accountId != "" && GetAccount()
@@ -93,6 +94,15 @@ export default User = ({ navigation }) => {
                                 icon={<StatisticIcon color={Colors.black} width={24} height={24} />}
                             // onPress={() => navigation.navigate('NotifiCation')}
                             />
+                             <ButtonProfileContrl title={'Đổi mật khẩu'}
+                                icon={<LockIcon color={Colors.black} />}
+                                onPress={() => {
+                                    if (token.accountId != "" ) {
+                                        navigation.navigate('ResetPass')
+                                    } else {
+                                        Alert.alert("Thông báo", "Yêu cầu đăng nhập")
+                                    }
+                                }} />
                         </View>
                     </> :
                     <>

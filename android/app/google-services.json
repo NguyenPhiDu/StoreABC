@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1008154258559",
+    "firebase_url": "https://storeabc-73ccd-default-rtdb.firebaseio.com",
+    "project_id": "storeabc-73ccd",
+    "storage_bucket": "storeabc-73ccd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008154258559:android:a0a11e7c3e5ae5e311e34a",
+        "android_client_info": {
+          "package_name": "com.smartshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008154258559-86uue6vm0hfutnbs2h3qm7jrt4joolq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOeSbz-sJ30MPve1VcIgEMy5Gjf0nV5Uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008154258559-86uue6vm0hfutnbs2h3qm7jrt4joolq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

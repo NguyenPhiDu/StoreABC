@@ -10,6 +10,7 @@ import ButtonContrl from '../../Components/ButtonContrl';
 import ModalAdmin from '../../Components/ModalAdmin';
 import EditIcon from '../../Icons/EditIcon';
 import { database } from '../../Utils/firebase-Config';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { UpdateProduct } from '../../Utils/firebase';
 
 export default AdminEditProducts = ({ navigation, route }) => {
@@ -46,9 +47,8 @@ export default AdminEditProducts = ({ navigation, route }) => {
     })
 
     const GetProduct = () => {
-        database
-            .ref(`products/` + route.params)
-            .on('value', (data) => {
+            const Ref = ref( database,`products/` + route.params)
+            onValue(Ref, (data) => {
                 setProduct({
                     ...product,
                     name: data.val().name,

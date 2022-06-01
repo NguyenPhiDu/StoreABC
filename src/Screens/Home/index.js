@@ -13,6 +13,9 @@ import TheFirmItem from '../../Components/TheFirmItem';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
 import { database } from '../../Utils/firebase-Config';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
+import AdminListPoductItem from '../../Components/AdminListPoductItem';
+import ProductSearchItem from '../../Components/ProductSearchItem';
 
 export default Home = ({ navigation }) => {
 
@@ -38,18 +41,35 @@ export default Home = ({ navigation }) => {
         price: '10000'
     }];
     const [product, setProduct] = useState([])
+    const [temp, setTemp] = useState(false)
+    //const [product1, setProduct1] = useState([])
     const GetProduct = () => {
-        database
-            .ref(`products/`)
-            .on('value', (data) => {
-                let responselist = Object.values(data.val())
-                setProduct(responselist)
-            })
+        const Ref = ref(database, `products/`)
+        onValue(Ref, (data) => {
+            let responselist = Object.values(data.val())
+            setProduct(responselist)
+            //setProduct1(responselist)
+        })
+    }
+    const handleseach = (text) => {
+        text != "" ? setTemp(true) : setTemp(false)
+        if (text) {
+            const newData = product.filter(function (item) {
+                const Data = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return Data.indexOf(textData) > -1;
+            });
+            setProduct(newData)
+        } else {
+            GetProduct()
+        }
     }
     useEffect(() => {
         GetProduct()
         const willFocusSubscription = navigation.addListener('focus', () => {
-            GetProduct()
+            //GetProduct()
         })
         return willFocusSubscription
     }, [])
@@ -66,62 +86,76 @@ export default Home = ({ navigation }) => {
                 <View style={styles.timKiem}>
                     <SearchIcon color={Colors.gray} />
                     <TextInput style={styles.inputSearch}
-                        placeholder='Tìm Kiếm...' />
+                        placeholder='Tìm Kiếm...'
+                        value={product}
+                        onChangeText={(e) => { handleseach(e) }} />
                 </View>
-                <ScrollView>
-                    <Text style={styles.ThuongHieu}>Hãng</Text>
-                    <View>
-                        <FlatList
-                            horizontal
-                            data={DATA}
-                            renderItem={({ item }) => (
-                                <TheFirmItem img={item.img}
-                                    onPress={() => navigation.navigate('ProductsStack')} />
-                            )}
-                            keyExtractor={item => item.id}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                        <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
-                        <View style={styles.styleViewAll}>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('ProductsStack')}>
-                                <Text style={styles.viewAll}>Xem tất cả</Text>
-                            </TouchableOpacity>
+                {temp == false ?
+                    <ScrollView>
+                        <Text style={styles.ThuongHieu}>Hãng</Text>
+                        <View>
+                            <FlatList
+                                horizontal
+                                data={DATA}
+                                renderItem={({ item }) => (
+                                    <TheFirmItem img={item.img}
+                                        onPress={() => navigation.navigate('ProductsStack')} />
+                                )}
+                                keyExtractor={item => item.id}
+                            />
                         </View>
-                    </View>
-                    <View style={{ flex: 1 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
+                            <View style={styles.styleViewAll}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('ProductsStack')}>
+                                    <Text style={styles.viewAll}>Xem tất cả</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <FlatList
+                                horizontal
+                                data={product}
+                                renderItem={({ item }) => (
+                                    <ProductsItem img={item.img} name={item.name} price={item.price}
+                                        onPress={() => navigation.navigate('ProductDetails', item.id)} />
+                                )}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
+                        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+                            <Text style={styles.ThuongHieu}>Xu hướng mua sắm</Text>
+                            <View style={styles.styleViewAll}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('ProductsStack')}>
+                                    <Text style={styles.viewAll}>Xem tất cả</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, marginVertical: 10 }}>
+                            <FlatList
+                                horizontal
+                                data={product}
+                                renderItem={({ item }) => (
+                                    <ProductsItem img={item.img} name={item.name} price={item.price}
+                                        onPress={() => navigation.navigate('ProductDetails', item.id)} />
+                                )}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
+                    </ScrollView> :
+                    <View style={{  }}>
                         <FlatList
-                            horizontal
                             data={product}
                             renderItem={({ item }) => (
-                                <ProductsItem img={item.img} name={item.name} price={item.price}
+                                <ProductSearchItem name={item.name} img={item.img} price={item.price}
                                     onPress={() => navigation.navigate('ProductDetails', item.id)} />
                             )}
                             keyExtractor={item => item.id}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-                        <Text style={styles.ThuongHieu}>Xu hướng mua sắm</Text>
-                        <View style={styles.styleViewAll}>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('ProductsStack')}>
-                                <Text style={styles.viewAll}>Xem tất cả</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={{ flex: 1, marginVertical: 10 }}>
-                        <FlatList
-                            horizontal
-                            data={product}
-                            renderItem={({ item }) => (
-                                <ProductsItem img={item.img} name={item.name} price={item.price}
-                                    onPress={() => navigation.navigate('ProductDetails', item.id)} />
-                            )}
-                            keyExtractor={item => item.id}
-                        />
-                    </View>
-                </ScrollView>
+                }
             </SafeAreaView >
         </View>
     )

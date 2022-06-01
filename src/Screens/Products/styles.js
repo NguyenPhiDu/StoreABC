@@ -22,4 +22,5 @@ export const styles = StyleSheet.create({
         paddingLeft:5,
         color: Colors.black
     }
+    
 });

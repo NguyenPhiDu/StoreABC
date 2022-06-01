@@ -8,6 +8,7 @@ import InputContrl from '../../Components/InputContrl';
 import { auth } from '../../Utils/firebase-Config';
 import { createAccount } from '../../Utils/firebase';
 import { AuthContext } from '../../Components/Redux/AuthContext';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default SignUp = ({ navigation }) => {
     const [email, setEmail] = useState("")
@@ -25,8 +26,7 @@ export default SignUp = ({ navigation }) => {
     }
 
     const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, pass)
+        createUserWithEmailAndPassword(email, pass)
             .then((account) => {
                 setToken({ accountId: account.user.uid, accountName: account.user.email })
                 createAccount(account.user)

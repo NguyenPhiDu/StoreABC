@@ -8,6 +8,7 @@ import RomItem from '../../Components/RomItem';
 import { database } from '../../Utils/firebase-Config';
 import { createCart } from '../../Utils/firebase';
 import { AuthContext } from '../../Components/Redux/AuthContext';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
 
 export default ProductDetails = ({ navigation, route }) => {
     const { token } = useContext(AuthContext)
@@ -33,40 +34,38 @@ export default ProductDetails = ({ navigation, route }) => {
         firm: "",
     })
     const GetProduct = () => {
-        database
-            .ref(`products/` + route.params)
-            .on('value', (data) => {
-                setProduct({
-                    ...product,
-                    name: data.val().name,
-                    quantity: "1",
-                    display: data.val().display,
-                    os: data.val().os,
-                    cameraS: data.val().cameraS,
-                    cameraT: data.val().cameraT,
-                    chip: data.val().chip,
-                    ram: data.val().ram,
-                    rom: data.val().rom,
-                    sim: data.val().sim,
-                    pin: data.val().pin,
-                    price: data.val().price,
-                    firm: data.val().firm,
-                    img: data.val().img
-                })
+        const Ref = ref(database, `products/` + route.params)
+        onValue(Ref, (data) => {
+            setProduct({
+                ...product,
+                name: data.val().name,
+                quantity: "1",
+                display: data.val().display,
+                os: data.val().os,
+                cameraS: data.val().cameraS,
+                cameraT: data.val().cameraT,
+                chip: data.val().chip,
+                ram: data.val().ram,
+                rom: data.val().rom,
+                sim: data.val().sim,
+                pin: data.val().pin,
+                price: data.val().price,
+                firm: data.val().firm,
+                img: data.val().img
             })
+        })
     }
 
     const GetAccount = () => {
-        database
-            .ref(`accounts/` + token.accountId)
-            .on('value', (data) => {
-                setAccount({
-                    ...account,
-                    userId: token.accountId,
-                    userName: data.val().name,
-                    phone: data.val().phone,
-                })
+        const Ref = ref(getDatabase(), `accounts/` + token.accountId)
+        onValue(Ref, (data) => {
+            setAccount({
+                ...account,
+                userId: token.accountId,
+                userName: data.val().name,
+                phone: data.val().phone,
             })
+        })
     }
 
     const check = () => {

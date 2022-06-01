@@ -1,6 +1,6 @@
-import * as firebase from "firebase"
-import 'firebase/auth'
-import 'firebase/storage'
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, push } from "firebase/database"
 
 let config = {
     apiKey: "AIzaSyAHkTh2WbqbCB_1SWcKBSjZNKATNKlatfs",
@@ -12,12 +12,8 @@ let config = {
     appId: "1:1008154258559:web:f230fb5486e46cb111e34a",
     measurementId: "G-34KDFXYS1B"
 };
-if (!firebase.apps.length) {
-    firebase.initializeApp(config)
-}
-const auth = firebase.auth()
-const database = firebase.database()
-const storage = firebase.storage()
+const temp = initializeApp(config);
 
-export { auth, database, storage }
-export default firebase
+const database = getDatabase()
+const auth = getAuth()
+export { auth, database, temp }

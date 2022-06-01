@@ -9,6 +9,7 @@ import DeleteIcon from '../../Icons/DeleteIcon';
 import SearchIcon from '../../Icons/SearchIcon';
 import Header from '../../Components/Header';
 import { database } from '../../Utils/firebase-Config';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { del } from '../../Utils/firebase';
 
 export default AdminProducts = ({ navigation }) => {
@@ -16,12 +17,25 @@ export default AdminProducts = ({ navigation }) => {
     const [product, setProduct] = useState([])
 
     const GetProduct = () => {
-        database
-            .ref(`products/`)
-            .on('value', (data) => {
-                let responselist = Object.values(data.val())
-                setProduct(responselist)
-            })
+        const Ref = ref(database, `products/`)
+        onValue(Ref, (data) => {
+            let responselist = Object.values(data.val())
+            setProduct(responselist)
+        })
+    }
+    const handleseach = (text) => {
+        if (text) {
+            const newData = product.filter(function (item) {
+                const Data = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return Data.indexOf(textData) > -1;
+            });
+            setProduct(newData)
+        } else {
+            GetProduct()
+        }
     }
     useEffect(() => {
         GetProduct()
@@ -37,7 +51,9 @@ export default AdminProducts = ({ navigation }) => {
                 <View style={styles.timKiem}>
                     <SearchIcon color={Colors.gray} />
                     <TextInput style={styles.inputSearch}
-                        placeholder='Tìm Kiếm...' />
+                        placeholder='Tìm Kiếm...'
+                        data={product}
+                        onChangeText={(e) => { handleseach(e) }} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <FlatList

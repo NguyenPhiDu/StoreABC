@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
         paddingTop: 15,
         paddingHorizontal: 15,
         backgroundColor: Colors.white,
-        alignItems: 'flex-end',
-        flexDirection: 'row',
-        justifyContent: 'center'
+        //alignItems: 'flex-end',
+        //flexDirection: 'row',
+        //justifyContent: 'center'
     },
     timKiem: {
         height: 50,

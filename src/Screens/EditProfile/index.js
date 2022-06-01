@@ -10,6 +10,7 @@ import ButtonContrl from '../../Components/ButtonContrl';
 import { AuthContext } from '../../Components/Redux/AuthContext';
 import { database } from '../../Utils/firebase-Config';
 import { UpdateAccount } from '../../Utils/firebase';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
 
 export default EditProfile = ({ navigation }) => {
     const { token } = useContext(AuthContext)
@@ -24,26 +25,25 @@ export default EditProfile = ({ navigation }) => {
         phone: ""
     })
     const GetAccount = () => {
-        database
-            .ref(`accounts/` + token.accountId)
-            .on('value', (data) => {
-                setAccount({
-                    ...account,
-                    email: data.val().email,
-                    name: data.val().name,
-                    gender: data.val().gender,
-                    birthday: data.val().birthday,
-                    address: data.val().address,
-                    phone: data.val().phone,
-                })
-                if (data.val().gender == "1") {
-                    setSelectionNam(true)
-                    setSelectionNu(false)
-                } else {
-                    setSelectionNam(false)
-                    setSelectionNu(true)
-                }
+        const Ref = ref(getDatabase(), `accounts/` + token.accountId)
+        onValue(Ref, (data) => {
+            setAccount({
+                ...account,
+                email: data.val().email,
+                name: data.val().name,
+                gender: data.val().gender,
+                birthday: data.val().birthday,
+                address: data.val().address,
+                phone: data.val().phone,
             })
+            if (data.val().gender == "1") {
+                setSelectionNam(true)
+                setSelectionNu(false)
+            } else {
+                setSelectionNam(false)
+                setSelectionNu(true)
+            }
+        })
     }
 
     const updateProfile = () => {

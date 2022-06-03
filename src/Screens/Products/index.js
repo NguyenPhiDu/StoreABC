@@ -16,7 +16,7 @@ import { database } from '../../Utils/firebase-Config';
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { Picker } from '@react-native-picker/picker';
 
-export default Products = ({ navigation }) => {
+export default Products = ({ navigation, route }) => {
     const [product, setProduct] = useState([])
     const [product1, setProduct1] = useState([])
     const [selectedValue, setSelectedValue] = useState("All");
@@ -48,6 +48,11 @@ export default Products = ({ navigation }) => {
         }
     }
     useEffect(() => {
+        //if (route != "") {
+        //setSelectedValue(route.params.name)
+        console.log(route)
+        //console.log(route.params.firm || "")
+        // }
         GetProduct()
         const willFocusSubscription = navigation.addListener('focus', () => {
             //GetProduct()
@@ -70,6 +75,8 @@ export default Products = ({ navigation }) => {
                     <Picker.Item label="samsung" value="samsung" />
                     <Picker.Item label="apple" value="apple" />
                     <Picker.Item label="oppo" value="oppo" />
+                    <Picker.Item label="nokia" value="nokia" />
+                    <Picker.Item label="xiaomi" value="xiaomi" />
                 </Picker>
             </View>
             <View>
@@ -77,7 +84,7 @@ export default Products = ({ navigation }) => {
                     numColumns={2}
                     data={product1}
                     renderItem={({ item }) => (
-                        <ProductsItem name={item.name} img={item.img} price={item.price}
+                        <ProductsItem name={item.name} img={item.img1} price={item.price}
                             onPress={() => navigation.navigate('ProductDetails', item.id)} />
                     )}
                     keyExtractor={item => item.id}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
@@ -6,47 +6,44 @@ import { styles } from './styles';
 import ButtonContrl from '../../Components/ButtonContrl';
 import Header from '../../Components/Header';
 import OrderItem from '../../Components/OrderItem';
+import { AuthContext } from '../../Components/Redux/AuthContext';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
+import { createOrder } from '../../Utils/firebase';
 
-export default Order = ({ navigation }) => {
+export default Order = ({ navigation, route }) => {
+    const cart = route.params.cart
+    const money = route.params.money
+    const quantity = route.params.quantity
+    const { token } = useContext(AuthContext)
+    const [account, setAccount] = useState({
+        name: "",
+        address: "",
+        phone: ""
+    })
+    const GetAccount = () => {
+        const Ref = ref(getDatabase(), `accounts/` + token.accountId)
+        onValue(Ref, (data) => {
+            setAccount({
+                ...account,
+                name: data.val().name,
+                address: data.val().address,
+                phone: data.val().phone,
+            })
+        })
+    }
 
-    const DATA2 = [{
-        id: '1',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '20000000'
-    },
-    {
-        id: '2',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '3',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '4',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '5',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    }];
+    useEffect(() => {
+        GetAccount()
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} title={'Xác nhận đặt hàng'} />
             <View style={{ flex: 0.8 }}>
                 <FlatList
-                    data={DATA2}
+                    data={cart}
                     renderItem={({ item }) => (
-                        <OrderItem img={item.img} name={item.name} price={item.price}
+                        <OrderItem img={item.img} name={item.productName} price={item.price}
+                            quantity={item.quantity}
                         // onPress={() => navigation.navigate('ProductDetails')} 
                         />
                     )}
@@ -66,7 +63,9 @@ export default Order = ({ navigation }) => {
                         <TextInput
                             style={{ borderBottomColor: Colors.gray, borderBottomWidth: 1, height: 40, }}
                             placeholder='nhập họ tên...'
-                            placeholderTextColor={Colors.gray} />
+                            placeholderTextColor={Colors.gray}
+                            value={account.name}
+                            onChangeText={(e) => { setAccount({ ...account, name: e }) }} />
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
@@ -76,27 +75,27 @@ export default Order = ({ navigation }) => {
                             style={{ borderBottomColor: Colors.gray, borderBottomWidth: 1, height: 40, }}
                             placeholder='Nhập số điện thoại...'
                             placeholderTextColor={Colors.gray}
-                            maxLength={10} />
+                            maxLength={10}
+                            value={account.phone}
+                            onChangeText={(e) => { setAccount({ ...account, phone: e }) }} />
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>Tổng số Lượng :</Text>
-                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15, }}>1 </Text>
-                </View>
-                <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>Phí vận chuyển :</Text>
-                    <Text style={{ flex: 1, color: Colors.red, fontSize: 15, fontWeight: 'bold' }}>30000đ</Text>
+                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15, }}>{quantity}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>Tổng tiền : </Text>
-                    <Text style={{ flex: 1, color: Colors.red, fontSize: 15, fontWeight: 'bold' }}>200000000đ</Text>
+                    <Text style={{ flex: 1, color: Colors.red, fontSize: 20, fontWeight: 'bold' }}>{money}đ</Text>
                 </View>
                 <View style={{}}>
                     <Text style={{ color: Colors.black, fontSize: 15, marginBottom: 5 }}>Địa chỉ nhận hàng :</Text>
                     <View style={{ borderColor: Colors.gray, borderWidth: 1, borderRadius: 10, paddingHorizontal: 5, height: 100 }}>
                         <TextInput
                             multiline={true}
-                            placeholder='Nhập địa chỉ...' />
+                            placeholder='Nhập địa chỉ...'
+                            value={account.address}
+                            onChangeText={(e) => { setAccount({ ...account, address: e }) }} />
                     </View>
                 </View>
             </View>
@@ -107,7 +106,18 @@ export default Order = ({ navigation }) => {
             }}>
                 <ButtonContrl
                     title={'Đặt hàng'} color={Colors.white}
-                    onPress={() => navigation.navigate('Order')} />
+                    onPress={() => {
+                        createOrder({
+                            userId: token.accountId,
+                            userName: account.name,
+                            phone: account.phone,
+                            address: account.address,
+                            quantity: quantity,
+                            money: money,
+                            trangThai: false
+                        })
+                        navigation.navigate('Home')
+                    }} />
             </View>
         </SafeAreaView >
     )

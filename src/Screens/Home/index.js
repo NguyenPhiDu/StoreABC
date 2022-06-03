@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, LogBox, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import SearchIcon from '../../Icons/SearchIcon';
 import SmartShopIcon from '../../Icons/SmartShopIcon';
@@ -7,6 +7,8 @@ import samsung from '../../static/images/logoSamsung.png'
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
 import xiaomi from '../../static/images/logoXiaomi.png'
 import iphone from '../../static/images/logoIphone.png'
+import banner1 from '../../static/images/banner1.jpg'
+import banner2 from '../../static/images/banner2.jpg'
 import nokia from '../../static/images/logoNokia.png'
 import oppo from '../../static/images/logoOppo.png'
 import TheFirmItem from '../../Components/TheFirmItem';
@@ -16,39 +18,25 @@ import { database } from '../../Utils/firebase-Config';
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import AdminListPoductItem from '../../Components/AdminListPoductItem';
 import ProductSearchItem from '../../Components/ProductSearchItem';
+import { SliderBox } from "react-native-image-slider-box"
 
 export default Home = ({ navigation }) => {
 
-    const DATA = [{ id: '1', img: samsung }, { id: '2', img: xiaomi },
-    { id: '3', img: iphone }, { id: '4', img: nokia }, { id: '5', img: oppo }]
+    const DATA = [{ id: '1', img: samsung, firm: 'samsung' }, { id: '2', img: xiaomi, firm: 'xiaomi' },
+    { id: '3', img: iphone, firm: 'apple' }, { id: '4', img: nokia, firm: 'nokia' }, { id: '5', img: oppo, firm: 'oppo' }]
 
-    const DATA2 = [{
-        id: '1',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '20000000'
-    },
-    {
-        id: '2',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '3',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    }];
+    const images = [banner2, banner1]
     const [product, setProduct] = useState([])
     const [temp, setTemp] = useState(false)
-    //const [product1, setProduct1] = useState([])
+    const [product1, setProduct1] = useState([])
     const GetProduct = () => {
         const Ref = ref(database, `products/`)
         onValue(Ref, (data) => {
-            let responselist = Object.values(data.val())
-            setProduct(responselist)
-            //setProduct1(responselist)
+            let responselist1 = Object.values(data.val())
+            let responselist2 = Object.values(data.val())
+            setProduct1(responselist1)
+            setProduct(responselist2.reverse())
+
         })
     }
     const handleseach = (text) => {
@@ -68,15 +56,17 @@ export default Home = ({ navigation }) => {
     }
     useEffect(() => {
         GetProduct()
+        LogBox.ignoreAllLogs();
         const willFocusSubscription = navigation.addListener('focus', () => {
             //GetProduct()
+            //LogBox.ignoreAllLogs();
         })
         return willFocusSubscription
     }, [])
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView >
+        <SafeAreaView style={styles.container}>
+            <ScrollView >
                 <View style={{
                     alignItems: 'flex-end', flexDirection: 'row',
                     justifyContent: 'center'
@@ -92,6 +82,21 @@ export default Home = ({ navigation }) => {
                 </View>
                 {temp == false ?
                     <ScrollView>
+                        <View style={{
+                            justifyContent: 'center',
+                            marginLeft: 15,
+                            marginBottom: 10
+                        }}>
+                            <SliderBox
+                                style={styles.ImageBackground}
+                                images={images}
+                                sliderBoxHeight={500}
+                                dotColor="#2A2D3F"
+                                inactiveDotColor="#90A4AE"
+                                dotStyle={styles.dot}
+                                autoplay={true}
+                            />
+                        </View>
                         <Text style={styles.ThuongHieu}>Hãng</Text>
                         <View>
                             <FlatList
@@ -99,7 +104,7 @@ export default Home = ({ navigation }) => {
                                 data={DATA}
                                 renderItem={({ item }) => (
                                     <TheFirmItem img={item.img}
-                                        onPress={() => navigation.navigate('ProductsStack')} />
+                                        onPress={() => navigation.navigate('Products', { firm: "1" })} />
                                 )}
                                 keyExtractor={item => item.id}
                             />
@@ -108,7 +113,7 @@ export default Home = ({ navigation }) => {
                             <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
                             <View style={styles.styleViewAll}>
                                 <TouchableOpacity
-                                    onPress={() => navigation.navigate('ProductsStack')}>
+                                    onPress={() => navigation.navigate('Products', { firm: item.firm })}>
                                     <Text style={styles.viewAll}>Xem tất cả</Text>
                                 </TouchableOpacity>
                             </View>
@@ -118,8 +123,10 @@ export default Home = ({ navigation }) => {
                                 horizontal
                                 data={product}
                                 renderItem={({ item }) => (
-                                    <ProductsItem img={item.img} name={item.name} price={item.price}
-                                        onPress={() => navigation.navigate('ProductDetails', item.id)} />
+                                    <ProductsItem img={item.img1} name={item.name} price={item.price}
+                                        productId={item.id}
+                                        onPress={() => navigation.navigate('ProductDetails', item.id)}
+                                    />
                                 )}
                                 keyExtractor={item => item.id}
                             />
@@ -136,27 +143,27 @@ export default Home = ({ navigation }) => {
                         <View style={{ flex: 1, marginVertical: 10 }}>
                             <FlatList
                                 horizontal
-                                data={product}
+                                data={product1}
                                 renderItem={({ item }) => (
-                                    <ProductsItem img={item.img} name={item.name} price={item.price}
+                                    <ProductsItem img={item.img1} name={item.name} price={item.price}
                                         onPress={() => navigation.navigate('ProductDetails', item.id)} />
                                 )}
                                 keyExtractor={item => item.id}
                             />
                         </View>
                     </ScrollView> :
-                    <View style={{  }}>
+                    <View style={{}}>
                         <FlatList
                             data={product}
                             renderItem={({ item }) => (
-                                <ProductSearchItem name={item.name} img={item.img} price={item.price}
+                                <ProductSearchItem name={item.name} img={item.img1} price={item.price}
                                     onPress={() => navigation.navigate('ProductDetails', item.id)} />
                             )}
                             keyExtractor={item => item.id}
                         />
                     </View>
                 }
-            </SafeAreaView >
-        </View>
+            </ScrollView >
+        </SafeAreaView>
     )
 };

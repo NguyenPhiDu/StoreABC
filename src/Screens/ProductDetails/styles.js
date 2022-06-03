@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { Colors } from '../../Utils/Color';
 
 export const styles = StyleSheet.create({
@@ -9,6 +9,13 @@ export const styles = StyleSheet.create({
     img: {
         height: 250,
         width: 250,
-        alignSelf:'center'
-    }
+        
+    },
+    ImageBackground: {
+        height: 350,
+        width: 350,
+    },
+    dot: {
+        //paddingHorizontal: 20
+    },
 });

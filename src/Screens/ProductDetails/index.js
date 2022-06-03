@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, FlatList, View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { SafeAreaView, LogBox, View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import HeaderColorPurple from '../../Components/HeaderColorPurple';
 import ButtonContrl from '../../Components/ButtonContrl';
-import RomItem from '../../Components/RomItem';
 import { database } from '../../Utils/firebase-Config';
 import { createCart } from '../../Utils/firebase';
 import { AuthContext } from '../../Components/Redux/AuthContext';
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
+import { SliderBox } from "react-native-image-slider-box"
+import AddIcon from '../../Icons/AddIcon';
+import RemoveIcon from '../../Icons/RemoveIcon';
 
 export default ProductDetails = ({ navigation, route }) => {
     const { token } = useContext(AuthContext)
+    const [images, setImages] = useState([])
+    const [count, setCount] = useState(1);
     const [account, setAccount] = useState({
         userId: "",
         userName: "",
@@ -32,6 +36,9 @@ export default ProductDetails = ({ navigation, route }) => {
         pin: "",
         price: "",
         firm: "",
+        img1: "",
+        img2: "",
+        img3: "",
     })
     const GetProduct = () => {
         const Ref = ref(database, `products/` + route.params)
@@ -39,7 +46,6 @@ export default ProductDetails = ({ navigation, route }) => {
             setProduct({
                 ...product,
                 name: data.val().name,
-                quantity: "1",
                 display: data.val().display,
                 os: data.val().os,
                 cameraS: data.val().cameraS,
@@ -51,10 +57,14 @@ export default ProductDetails = ({ navigation, route }) => {
                 pin: data.val().pin,
                 price: data.val().price,
                 firm: data.val().firm,
-                img: data.val().img
+                img1: data.val().img1,
+                img2: data.val().img2,
+                img3: data.val().img3,
             })
+            setImages([data.val().img1, data.val().img2, data.val().img3])
         })
     }
+
 
     const GetAccount = () => {
         const Ref = ref(getDatabase(), `accounts/` + token.accountId)
@@ -69,15 +79,18 @@ export default ProductDetails = ({ navigation, route }) => {
     }
 
     const check = () => {
-        token.accountName != "" ? createCart({ ...account, ...product })
+        const quantity = count
+        token.accountName != "" ? createCart({ ...account, ...product, quantity })
             : alert("Yêu cầu đăng nhập")
     }
     useEffect(() => {
         GetProduct()
         GetAccount()
+        LogBox.ignoreAllLogs();
         const willFocusSubscription = navigation.addListener('focus', () => {
             GetProduct()
             GetAccount()
+            LogBox.ignoreAllLogs();
         })
         return willFocusSubscription
     }, [])
@@ -86,25 +99,38 @@ export default ProductDetails = ({ navigation, route }) => {
             <HeaderColorPurple navigation={navigation} title={'Chi tiết sản phẩm'} />
             <ScrollView>
                 <View style={{ marginHorizontal: 20, borderRadius: 20, backgroundColor: Colors.white }}>
-                    <View style={{ width: "100%", padding: 40, }}>
-                        <Image
-                            style={styles.img}
-                            source={{ uri: product.img }}
+                    <View style={{
+                        justifyContent: 'center',
+                        padding: 10,
+                    }}>
+                        <SliderBox
+                            style={styles.ImageBackground}
+                            images={images}
+                            sliderBoxHeight={500}
+                            dotColor="#2A2D3F"
+                            inactiveDotColor="#90A4AE"
+                            dotStyle={styles.dot}
+                            autoplay={true}
                         />
                     </View>
                     <View style={{ paddingHorizontal: 20 }}>
-                        <Text style={{ color: Colors.black, fontSize: 20, fontWeight: 'bold' }}>{product.name}</Text>
-                        {/* <View style={{ marginVertical: 10, flexDirection: "row", flexWrap: "wrap" }}>
-                            {DATA2?.map((item) => (
-                                <RomItem
-                                    selectItem={selectItem}
-                                    setSelectItem={setSelectItem}
-                                    item={item} />
-                            ))
-                            }
-                        </View> */}
-                        <View style={{ marginBottom: 20, flexDirection: 'row-reverse', alignItems: 'flex-end' }}>
-                            <Text style={{ color: Colors.red, fontSize: 30, fontWeight: 'bold' }}>{product.price}đ</Text>
+                        <Text style={{ color: Colors.black, fontSize: 25, fontWeight: 'bold' }}>{product.name}</Text>
+                        <View style={{ marginTop: 10 }}>
+                            <Text style={{ color: Colors.red, fontSize: 23, fontWeight: 'bold' }}>{product.price}đ</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row-reverse', alignItems: 'center', marginBottom: 10 }}>
+                            <TouchableOpacity style={{ padding: 2 }}
+                                onPress={() => count < 2 ? setCount(1) : setCount(count - 1)}>
+                                <RemoveIcon color={Colors.purple} />
+                            </TouchableOpacity>
+                            <Text style={{
+                                color: Colors.purple, paddingHorizontal: 7, fontWeight: 'bold',
+                                fontSize: 20
+                            }}>{count}</Text>
+                            <TouchableOpacity style={{ padding: 2 }}
+                                onPress={() => setCount(count + 1)}>
+                                <AddIcon color={Colors.purple}></AddIcon>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>

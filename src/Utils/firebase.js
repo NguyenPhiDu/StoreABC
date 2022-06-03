@@ -4,6 +4,7 @@ import { auth } from "./firebase-Config"
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { sendPasswordResetEmail } from 'firebase/auth';
 const database = getDatabase()
+export const Default_Image_Add = "https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/imgProduct%2F1654103052016.png?alt=media&token=88426b43-b7ce-4912-b84e-2d62b3fb04d1"
 export const createAccount = (data) => {
     const db_account = ref(database, "accounts" + "/" + data.uid)
     var account = {
@@ -15,7 +16,7 @@ export const createAccount = (data) => {
         phone: "",
         address: "",
     };
-    db_account.set(account)
+    set(db_account, account)
 }
 
 export const UpdateAccount = (data) => {
@@ -30,7 +31,7 @@ export const UpdateAccount = (data) => {
             phone: data.phone,
             address: data.address,
         };
-        db_account.set(account)
+        set(db_account, account)
         Alert.alert("Thông báo", "Cập nhật thành công")
     } catch (error) {
         alert(error)
@@ -111,23 +112,58 @@ export const del = (data) => {
     }
 }
 
-export const createCart = (data) => {
+export const delCart = (data) => {
     try {
-        const db_cart = ref(database, "carts/")
-        const newReference = push(db_cart);
-        db_cart = ref(database, 'carts/' + newReference.key);
+        set(ref(database, 'carts/' + data.userId + '/' + data.id), null)
+    } catch (error) {
+        alert(error)
+    }
+}
+
+export const createCart = (data) => {
+
+    try {
+        const money = data.price * data.quantity
+        var db_cart = ref(database, 'carts/')
+        // const newReference = push(db_cart);
+        db_cart = ref(database, 'carts/' + data.userId + '/' + data.id)
         var cart = {
-            id: newReference.key,
+            id: data.id,
             productId: data.id,
             productName: data.name,
             userId: data.userId,
             userName: data.userName,
             quantity: data.quantity,
-            rom: data.rom,
-            price: data.price,
+            price: money,
+            img: data.img1
         };
-        db_cart.set(cart)
+        set(db_cart, cart)
         Alert.alert("Thông báo", "Thêm thành công")
+    } catch (error) {
+        alert(error)
+    }
+}
+
+
+export const createOrder = (data) => {
+
+    try {
+
+        var db_order = ref(database, 'orders/')
+        const newReference = push(db_order);
+        db_order = ref(database, 'orders/' + newReference.key)
+        var order = {
+            id: newReference.key,
+            userId: data.userId,
+            userName: data.userName,
+            userPhone: data.phone,
+            userAddress: data.address,
+            quantity: data.quantity,
+            money: data.money,
+            trangThai: data.trangThai
+        };
+        set(db_order, order)
+        Alert.alert("Thông báo", "đặt thành công")
     } catch (error) {
         alert(error)
     }

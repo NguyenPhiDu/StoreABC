@@ -8,17 +8,13 @@ export default OrderItem = (props) => {
         <TouchableOpacity style={styles.item}
             onPress={props.onPress}>
             <View style={styles.viewImg}>
-                <Image style={styles.imgLogo} source={props.img} />
+                <Image style={styles.imgLogo} source={{ uri: props.img }} />
             </View>
             <View style={{ flex: 2, paddingLeft: 20, justifyContent: 'center' }}>
                 <View style={{ flex: 1 }}>
                     <Text style={styles.name}>{props.name}</Text>
                 </View>
                 <View style={{ flex: 1, }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: Colors.black, fontSize: 13 }}>Bộ nhớ trong : </Text>
-                        <Text style={{ color: Colors.black, fontSize: 13 }}>{props.internalMemory}</Text>
-                    </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: Colors.black, fontSize: 13 }}>Số lượng : </Text>
                         <Text style={{ color: Colors.black, fontSize: 13 }}>{props.quantity}</Text>

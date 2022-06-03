@@ -48,7 +48,7 @@ export default Navigate = () => {
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="ProductsStack"
+                name="Products"
                 options={{
                     tabBarIcon: ({ color }) => (
                         <ProductsIcon color={color} height={25} width={25} />

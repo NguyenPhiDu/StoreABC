@@ -39,10 +39,10 @@ export default AdminProducts = ({ navigation }) => {
     }
     useEffect(() => {
         GetProduct()
-        const willFocusSubscription = navigation.addListener('focus', () => {
-            //GetProduct()
-        })
-        return willFocusSubscription
+        // const willFocusSubscription = navigation.addListener('focus', () => {
+        //     //GetProduct()
+        // })
+        // return willFocusSubscription
     }, [])
     return (
         <SafeAreaView style={styles.container}>
@@ -60,7 +60,7 @@ export default AdminProducts = ({ navigation }) => {
                         data={product}
                         renderItem={({ item }) => (
                             <AdminListPoductItem name={item.name}
-                                img={item.img} price={item.price}
+                                img={item.img1} price={item.price}
                                 rom={item.rom} quantity={item.quantity}
                                 onPressDelete={() => {
                                     Alert.alert(

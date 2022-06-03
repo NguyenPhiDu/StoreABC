@@ -5,16 +5,14 @@ import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import Header from '../../Components/Header';
 import ButtonContrl from '../../Components/ButtonContrl';
-import { createProduct } from '../../Utils/firebase';
+import { createProduct, Default_Image_Add } from '../../Utils/firebase';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 
 export default AdminAddProducts = ({ navigation }) => {
-    const [img, setImg] = useState({
-        img1: "",
-        img2: "",
-        img3: ""
-    });
+    const [img1, setImg1] = useState("")
+    const [img2, setImg2] = useState("")
+    const [img3, setImg3] = useState("")
     const [product, setProduct] = useState({
         name: "",
         quantity: "",
@@ -31,7 +29,7 @@ export default AdminAddProducts = ({ navigation }) => {
         firm: "",
     })
     const createPr = () => {
-        createProduct({ ...product, ...img })
+        createProduct({ ...product, img1, img2, img3 })
         setProduct({
             name: "",
             quantity: "",
@@ -49,7 +47,25 @@ export default AdminAddProducts = ({ navigation }) => {
         })
     }
 
-    const selectImage2 = async () => {
+    const changePhoto = (i, path) => {
+        switch (i) {
+            case 1:
+                setImg1(path);
+                break;
+            case 2:
+                setImg2(path);
+                break;
+            case 3:
+                setImg3(path);
+                break;
+            default:
+                setImg1(Default_Image_Add)
+                setImg2(Default_Image_Add)
+                setImg3(Default_Image_Add)
+                break;
+        }
+    }
+    const choosePhotoFromLibrary = async (i) => {
         ImagePicker.openPicker({
             width: 300,
             height: 300,
@@ -58,47 +74,22 @@ export default AdminAddProducts = ({ navigation }) => {
             mediaType: "application/octet-stream;BASE64",
             includeBase64: true,
         }).then(image => {
-            setImg({ ...img, img2: image.path })
-        });
-    }
-    const selectImage3 = async () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 300,
-            cropping: true,
-            compressImageQuality: 0.7,
-            mediaType: "application/octet-stream;BASE64",
-            includeBase64: true,
-        }).then(image => {
-            setImg({ ...img, img3: image.path })
-        });
-    }
-    const selectImage1 = async () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 300,
-            cropping: true,
-            compressImageQuality: 0.7,
-            mediaType: "application/octet-stream;BASE64",
-            includeBase64: true,
-        }).then(image => {
-            setImg({ ...img, img1: image.path })
-            //console.log()
-        });
-    }
+            handleUpimge(i, image.path)
 
-    const upLoadImg = async () => {
-        console.log(img.img1)
-        const uploadUrl = "imgProduct/" + Date.now() + ".png"
+        });
+    }
+    const handleUpimge = async (i, path) => {
+        const uploadUrl = "Products/" + Date.now() + ".png"
         const reference = storage().ref(uploadUrl);
-        await reference.putFile(img.img1)
+        await reference.putFile(path)
             .then(() => {
                 reference
                     .getDownloadURL()
                     .then((url) => {
-                        console.log(url)
+                        changePhoto(i, url)
                     })
             })
+
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -108,12 +99,10 @@ export default AdminAddProducts = ({ navigation }) => {
                     <View style={{
                         marginLeft: 10
                     }}>
-                        {img.img1 != "" ?
-                            <Image source={{ uri: img.img1 }} style={{
-                                width: 100,
-                                height: 100
-                            }} />
-                            : null}
+                        <Image source={{ uri: img1 || Default_Image_Add }} style={{
+                            width: 100,
+                            height: 100
+                        }} />
                         <TouchableOpacity style={{
                             borderRadius: 5,
                             width: 100,
@@ -122,15 +111,13 @@ export default AdminAddProducts = ({ navigation }) => {
                             borderWidth: 1,
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }} onPress={selectImage1}>
+                        }} onPress={() => { choosePhotoFromLibrary(1) }}>
                             <Text style={styles.buttonText}>chọn ảnh</Text>
                         </TouchableOpacity>
-                        {img.img2 != "" ?
-                            <Image source={{ uri: img.img2 }} style={{
-                                width: 100,
-                                height: 100
-                            }} />
-                            : null}
+                        <Image source={{ uri: img2 || Default_Image_Add }} style={{
+                            width: 100,
+                            height: 100
+                        }} />
                         <TouchableOpacity style={{
                             borderRadius: 5,
                             width: 100,
@@ -140,15 +127,13 @@ export default AdminAddProducts = ({ navigation }) => {
                             marginVertical: 10,
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }} onPress={selectImage2}>
+                        }} onPress={() => { choosePhotoFromLibrary(2) }}>
                             <Text style={styles.buttonText}>chọn ảnh</Text>
                         </TouchableOpacity>
-                        {img.img3 != "" ?
-                            <Image source={{ uri: img.img3 }} style={{
-                                width: 100,
-                                height: 100
-                            }} />
-                            : null}
+                        <Image source={{ uri: img3 || Default_Image_Add }} style={{
+                            width: 100,
+                            height: 100
+                        }} />
                         <TouchableOpacity style={{
                             borderRadius: 5,
                             width: 100,
@@ -157,19 +142,8 @@ export default AdminAddProducts = ({ navigation }) => {
                             borderWidth: 1,
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }} onPress={selectImage3}>
+                        }} onPress={() => { choosePhotoFromLibrary(3) }}>
                             <Text style={styles.buttonText}>chọn ảnh</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{
-                            borderRadius: 5,
-                            width: 100,
-                            padding: 10,
-                            borderColor: Colors.black,
-                            borderWidth: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }} onPress={upLoadImg}>
-                            <Text style={styles.buttonText}>up</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginHorizontal: 20 }}>

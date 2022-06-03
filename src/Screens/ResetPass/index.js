@@ -54,11 +54,11 @@ export default ResetPass = ({ navigation }) => {
                         value={newpass}
                         onChangeText={(e) => { setNewPass(e) }} />
                 </View>
-                {/* <View style={{ marginBottom: 15, marginTop: 5 }}>
+                <View style={{ marginBottom: 15, marginTop: 5 }}>
                     <InputContrl
                         placeholder={'Nhập lại mật khẩu mới'}
                         secureTextEntry={true} />
-                </View> */}
+                </View>
                 <View style={{ width: '100%', marginVertical: 15 }}>
                     <ButtonContrl
                         title={'Xác nhận'}

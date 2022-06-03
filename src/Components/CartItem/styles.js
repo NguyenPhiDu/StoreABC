@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     item: {
-        flexDirection:'row',
+        flexDirection: 'row',
         flex: 1,
         borderColor: Colors.gray,
         borderWidth: 1,
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     price: {
         color: Colors.red,
         fontWeight: 'bold',
+        marginTop: 3,
         flex: 1,
         fontSize: 16,
     },
@@ -31,6 +32,6 @@ export const styles = StyleSheet.create({
     viewImg: {
         flex: 1,
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent: 'center'
     }
 })

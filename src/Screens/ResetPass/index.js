@@ -16,7 +16,7 @@ export default ResetPass = ({ navigation }) => {
     const [pass, setPass] = useState("")
     const user = auth.currentUser;
     const resetPass = () => {
-        console.log(token.accountName)
+        //console.log(token.accountName)
         const emailCred = EmailAuthProvider.credential(token.accountName, pass);
         reauthenticateWithCredential(user, emailCred)
             .then(() => {

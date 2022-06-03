@@ -50,7 +50,7 @@ export default Products = ({ navigation, route }) => {
     useEffect(() => {
         //if (route != "") {
         //setSelectedValue(route.params.name)
-        console.log(route)
+        //console.log(route)
         //console.log(route.params.firm || "")
         // }
         GetProduct()

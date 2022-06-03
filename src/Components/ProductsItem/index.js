@@ -16,87 +16,30 @@ export default ProductsItem = (props) => {
         userName: "",
         phone: ""
     })
-    const [product, setProduct] = useState({
-        id: props.productId,
-        name: "",
-        quantity: "",
-        display: "",
-        os: "",
-        cameraS: "",
-        cameraT: "",
-        chip: "",
-        ram: "",
-        rom: "",
-        sim: "",
-        pin: "",
-        price: "",
-        firm: "",
-        img1: "",
-        img2: "",
-        img3: "",
-    })
-    const GetProduct = () => {
-        const Ref = ref(database, `products/` + props.productId)
-        onValue(Ref, (data) => {
-            setProduct({
-                ...product,
-                name: data.val().name,
-                display: data.val().display,
-                os: data.val().os,
-                cameraS: data.val().cameraS,
-                cameraT: data.val().cameraT,
-                chip: data.val().chip,
-                ram: data.val().ram,
-                rom: data.val().rom,
-                sim: data.val().sim,
-                pin: data.val().pin,
-                price: data.val().price,
-                firm: data.val().firm,
-                img1: data.val().img1,
-                img2: data.val().img2,
-                img3: data.val().img3,
-            })
-        })
-        GetAccount()
-    }
     const GetAccount = () => {
-        const Ref = ref(getDatabase(), `accounts/` + token.accountId)
-        onValue(Ref, (data) => {
-            setAccount({
-                ...account,
-                userId: token.accountId,
-                userName: data.val().name,
-                phone: data.val().phone,
+        if (token.accountId != "") {
+            const Ref = ref(getDatabase(), `accounts/` + token.accountId)
+            onValue(Ref, (data) => {
+                setAccount({
+                    ...account,
+                    userId: token.accountId,
+                    userName: data.val().name,
+                    phone: data.val().phone,
+                })
             })
-        })
-
+        }
     }
-    // const check = () => {
-    //     if (token.accountId != "") {
-    //         GetProduct()
-    //         const quantity = count
-    //         createCart({ ...account, ...product, quantity })
-    //     } else {
-    //         alert("Yêu cầu đăng nhập")
-    //     }
-    // }
-    // useEffect(() => {
-    //     if (token.accountId != "") {
-    //         if (props != null) {
-    //             GetProduct()
-    //         }
-
-    //     }
-        // GetAccount()
-        // LogBox.ignoreAllLogs();
-        // const willFocusSubscription = navigation.addListener('focus', () => {
-        //     if (token.accountId != "") {
-        //         GetProduct()
-        //     }
-        //     LogBox.ignoreAllLogs();
-        // })
-        // return willFocusSubscription
-   // }, [token.accountId, props])
+    const check = () => {
+        if (token.accountId != "") {
+            const quantity = count
+            createCart({ ...account, ...props.item, quantity })
+        } else {
+            alert("Yêu cầu đăng nhập")
+        }
+    }
+    useEffect(() => {
+        GetAccount()
+    }, [token.accountId])
     return (
         <TouchableOpacity style={styles.item}
             onPress={props.onPress}>

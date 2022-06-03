@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
-import SearchIcon from '../../Icons/SearchIcon';
-import samsung from '../../static/images/logoSamsung.png'
-import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
-import xiaomi from '../../static/images/logoXiaomi.png'
-import iphone from '../../static/images/logoIphone.png'
-import nokia from '../../static/images/logoNokia.png'
-import oppo from '../../static/images/logoOppo.png'
-import TheFirmItem from '../../Components/TheFirmItem';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
 import FilterIcon from '../../Icons/FilterIcon';
@@ -48,16 +40,7 @@ export default Products = ({ navigation, route }) => {
         }
     }
     useEffect(() => {
-        //if (route != "") {
-        //setSelectedValue(route.params.name)
-        //console.log(route)
-        //console.log(route.params.firm || "")
-        // }
         GetProduct()
-        const willFocusSubscription = navigation.addListener('focus', () => {
-            //GetProduct()
-        })
-        return willFocusSubscription
     }, [])
     return (
         <SafeAreaView style={styles.container}>
@@ -84,7 +67,7 @@ export default Products = ({ navigation, route }) => {
                     numColumns={2}
                     data={product1}
                     renderItem={({ item }) => (
-                        <ProductsItem name={item.name} img={item.img1} price={item.price}
+                        <ProductsItem name={item.name} img={item.img1} price={item.price} item={item}
                             onPress={() => navigation.navigate('ProductDetails', item.id)} />
                     )}
                     keyExtractor={item => item.id}

@@ -123,8 +123,9 @@ export default Home = ({ navigation }) => {
                                 horizontal
                                 data={product}
                                 renderItem={({ item }) => (
-                                    <ProductsItem img={item.img1} name={item.name} price={item.price}
-                                        productId={item.id}
+                                    <ProductsItem img={item.img1}
+                                        name={item.name} price={item.price}
+                                        item={item}
                                         onPress={() => navigation.navigate('ProductDetails', item.id)}
                                     />
                                 )}
@@ -145,7 +146,7 @@ export default Home = ({ navigation }) => {
                                 horizontal
                                 data={product1}
                                 renderItem={({ item }) => (
-                                    <ProductsItem img={item.img1} name={item.name} price={item.price}
+                                    <ProductsItem img={item.img1} name={item.name} price={item.price} item={item}
                                         onPress={() => navigation.navigate('ProductDetails', item.id)} />
                                 )}
                                 keyExtractor={item => item.id}

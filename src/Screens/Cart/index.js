@@ -30,9 +30,9 @@ export default Cart = ({ navigation }) => {
     const sum = (cart) => {
         var money = 0
         var quantity = 0
-        if (cart.length > 1) {
+        if (cart.length > 0) {
             for (var i = 0; i < cart.length; i++) {
-                money += cart[i].price * cart[1].quantity
+                money += cart[i].price * cart[i].quantity
                 quantity += cart[i].quantity
             }
         }
@@ -41,11 +41,6 @@ export default Cart = ({ navigation }) => {
     }
     useEffect(() => {
         GetCart()
-        const willFocusSubscription = navigation.addListener('focus', () => {
-            LogBox.ignoreAllLogs();
-            GetCart()
-        })
-        return willFocusSubscription
     }, [])
     return (
         <SafeAreaView style={styles.container}>

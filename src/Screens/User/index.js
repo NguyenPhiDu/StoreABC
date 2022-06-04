@@ -15,6 +15,7 @@ import { database, auth } from '../../Utils/firebase-Config';
 import { createProduct } from '../../Utils/firebase';
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { updatePassword } from 'firebase/auth';
+import { Badge } from "@react-native-material/core";
 
 export default User = ({ navigation }) => {
     const { token } = useContext(AuthContext)
@@ -26,12 +27,41 @@ export default User = ({ navigation }) => {
             setName(data.val().name)
         })
     }
+    const [notification, setNotification] = useState()
+    const [adminNotification, setAdminNotification] = useState()
+    const GetNotification = () => {
+        const Ref = ref(database, 'notifications/' + token.accountId)
+        onValue(Ref, (snapshot) => {
+            var returnArr = [];
+            snapshot.forEach(function (childSnapshot) {
+                var item = childSnapshot.val();
+                returnArr.push(item);
+            });
+            setNotification(returnArr.length)
+        });
+    }
+    const GetAdminNotification = () => {
+        const Ref = ref(database, 'orders/')
+        onValue(Ref, (snapshot) => {
+            var returnArr = [];
+            snapshot.forEach(function (childSnapshot) {
+                var item = childSnapshot.val();
+                returnArr.push(item);
+            });
+            setAdminNotification(returnArr.length)
+        });
+    }
     useEffect(() => {
-        token.accountId != "" && GetAccount()
-        // const willFocusSubscription = navigation.addListener('focus', () => {
-        //     token.accountId != "" && GetAccount()
-        // })
-        // return willFocusSubscription
+        if (token.accountId != "") {
+            GetAccount()
+        }
+        GetAdminNotification()
+        GetNotification()
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            GetNotification()
+            GetAdminNotification()
+        })
+        return willFocusSubscription
     }, [token.accountId])
     return (
         <SafeAreaView style={styles.container}>
@@ -79,6 +109,8 @@ export default User = ({ navigation }) => {
                                 onPress={() => navigation.navigate('AdminCustomer')}
                             />
                             <ButtonProfileContrl title={'Thông báo'}
+                                notification={
+                                    token.accountId != "" ? <Badge label={adminNotification} color="error" /> : null}
                                 icon={<NotificationIcon color={Colors.black} width={24} height={24} />}
                                 onPress={() => navigation.navigate('AdminNotification')}
                             />
@@ -94,10 +126,10 @@ export default User = ({ navigation }) => {
                                 icon={<StatisticIcon color={Colors.black} width={24} height={24} />}
                             // onPress={() => navigation.navigate('NotifiCation')}
                             />
-                             <ButtonProfileContrl title={'Đổi mật khẩu'}
+                            <ButtonProfileContrl title={'Đổi mật khẩu'}
                                 icon={<LockIcon color={Colors.black} />}
                                 onPress={() => {
-                                    if (token.accountId != "" ) {
+                                    if (token.accountId != "") {
                                         navigation.navigate('ResetPass')
                                     } else {
                                         Alert.alert("Thông báo", "Yêu cầu đăng nhập")
@@ -119,6 +151,8 @@ export default User = ({ navigation }) => {
                                 }} />
                             <ButtonProfileContrl title={'Thông báo'}
                                 icon={<NotificationIcon color={Colors.black} width={24} height={24} />}
+                                notification={
+                                    token.accountId != "" ? <Badge label={notification} color="error" /> : null}
                                 onPress={() => {
                                     if (token.accountId != "" && token.accountName != "admin@gmail.com") {
                                         navigation.navigate('NotifiCation')

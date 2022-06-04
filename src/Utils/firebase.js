@@ -230,3 +230,27 @@ export const delBill = (data) => {
         alert(error)
     }
 }
+
+export const delNotification = (data) => {
+    try {
+        set(ref(database, 'notifications/' + data.userId + '/' + data.id), null)
+    } catch (error) {
+        alert(error)
+    }
+}
+
+export const createNotification = (data) => {
+    try {
+        var db_notification = ref(database, 'notifications/')
+        db_notification = ref(database, 'notifications/' + data.userId + '/' + data.id)
+        var notification = {
+            userId: data.userId,
+            idOrder: data.id,
+            userName: data.userName,
+            comment: data.comment
+        };
+        set(db_notification, notification)
+    } catch (error) {
+        alert(error)
+    }
+}

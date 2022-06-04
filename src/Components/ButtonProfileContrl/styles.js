@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     title: {
-        flex: 5,
+        flex: 4.5,
         color: Colors.black,
     }
 });

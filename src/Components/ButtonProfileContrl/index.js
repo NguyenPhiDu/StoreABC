@@ -9,9 +9,14 @@ export default ButtonProfileContrl = (props) => {
         <TouchableOpacity style={styles.container}
             onPress={props.onPress}>
             <View style={{ flex: 1, alignItems: 'center' }}>
-               {props.icon}
+                {props.icon}
             </View>
-            <Text style={styles.title}>{props.title}</Text>
+            <View style={{ flex: 5, flexDirection: 'row' }}>
+                <Text style={styles.title}>{props.title}</Text>
+                <View style={{ flex: 0.5 }}>
+                    {props.notification}
+                </View>
+            </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
                 <RightIcon color={Colors.gray} />
             </View>

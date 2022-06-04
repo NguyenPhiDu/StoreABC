@@ -35,27 +35,16 @@ export default AdminInvoiceDetails = ({ navigation, route }) => {
                 borderTopWidth: 2,
             }}>
                 <View style={{ flexDirection: 'row', marginVertical: 5, alignItems: 'center' }}>
+                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>mã hóa đơn : </Text>
+                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>{bill.id}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', marginVertical: 5, alignItems: 'center' }}>
                     <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>Họ tên KH : </Text>
-                    <View style={{ flex: 1, color: Colors.black }}>
-                        <TextInput
-                            style={{ borderBottomColor: Colors.gray, borderBottomWidth: 1, height: 40, }}
-                            placeholder='nhập họ tên...'
-                            placeholderTextColor={Colors.gray}
-                            value={bill.userName}
-                        />
-                    </View>
+                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>{bill.userName}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
                     <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>SĐT : </Text>
-                    <View style={{ flex: 1, color: Colors.black }}>
-                        <TextInput
-                            style={{ borderBottomColor: Colors.gray, borderBottomWidth: 1, height: 40, }}
-                            placeholder='Nhập số điện thoại...'
-                            placeholderTextColor={Colors.gray}
-                            maxLength={10}
-                            value={bill.userPhone}
-                        />
-                    </View>
+                    <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>{bill.userPhone}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <Text style={{ flex: 1, color: Colors.black, fontSize: 15 }}>Tổng số Lượng :</Text>

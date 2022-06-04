@@ -76,7 +76,7 @@ export default User = ({ navigation }) => {
                         height: 70,
                         borderRadius: 50
                     }}
-                        source={require('../../static/images/GalaxyS22.jpg')} />
+                        source={require('../../static/images/User.png')} />
                 </View>
                 <View style={{ flex: 2 }}>
                     <Text style={{ color: Colors.black, fontSize: 13, fontWeight: 'bold' }}>Xin chào</Text>

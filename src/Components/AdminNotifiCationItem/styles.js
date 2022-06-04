@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     },
     name: {
         color: Colors.black,
-        fontSize: 13,
+        fontSize: 15,
         fontWeight: 'bold',
     },
     viewImg: {

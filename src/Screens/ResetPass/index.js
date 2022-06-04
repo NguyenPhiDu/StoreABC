@@ -14,9 +14,16 @@ export default ResetPass = ({ navigation }) => {
     const { token } = useContext(AuthContext)
     const [newpass, setNewPass] = useState("")
     const [pass, setPass] = useState("")
+    const [pass2, setPass2] = useState("")
     const user = auth.currentUser;
+    const check = () => {
+        if (pass === "" || newpass === "" || pass2 != newpass) {
+            alert('Yêu cầu nhập lại')
+        } else {
+            resetPass()
+        }
+    }
     const resetPass = () => {
-        //console.log(token.accountName)
         const emailCred = EmailAuthProvider.credential(token.accountName, pass);
         reauthenticateWithCredential(user, emailCred)
             .then(() => {
@@ -26,8 +33,6 @@ export default ResetPass = ({ navigation }) => {
                 }).catch(error => {
                     alert(error)
                 })
-
-
             })
             .catch(error => {
                 alert(error)
@@ -57,13 +62,15 @@ export default ResetPass = ({ navigation }) => {
                 <View style={{ marginBottom: 15, marginTop: 5 }}>
                     <InputContrl
                         placeholder={'Nhập lại mật khẩu mới'}
-                        secureTextEntry={true} />
+                        secureTextEntry={true}
+                        value={pass2}
+                        onChangeText={(e) => { setPass2(e) }} />
                 </View>
                 <View style={{ width: '100%', marginVertical: 15 }}>
                     <ButtonContrl
                         title={'Xác nhận'}
                         color={Colors.white}
-                        onPress={() => { resetPass() }} />
+                        onPress={() => { check() }} />
                 </View>
             </ScrollView>
         </SafeAreaView>

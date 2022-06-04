@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { SafeAreaView, View, Text, LogBox, FlatList, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, View, Text, LogBox, FlatList, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Colors } from '../../Utils/Color';
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
 import { styles } from './styles';
@@ -32,10 +32,9 @@ export default Cart = ({ navigation }) => {
         var quantity = 0
         if (cart.length > 0) {
             for (var i = 0; i < cart.length; i++) {
-                money += cart[i].price * cart[i].quantity
+                money += cart[i].price
                 quantity += cart[i].quantity
             }
-          
         }
         setMoney(money)
         setQuantity(quantity)
@@ -70,8 +69,23 @@ export default Cart = ({ navigation }) => {
                             <CartItem img={item.img} name={item.productName} price={item.price}
                                 quantity={item.quantity}
                                 onPress={() => {
-                                    delCart({ userId: token.accountId, id: item.productId })
-                                    GetCart()
+                                    Alert.alert(
+                                        "Thông báo",
+                                        "bạn có muốn xóa ?",
+                                        [
+                                            {
+                                                text: "Hủy",
+                                                style: "cancel"
+                                            },
+                                            {
+                                                text: "Đồng ý",
+                                                onPress: () => {
+                                                    delCart({ userId: token.accountId, id: item.productId })
+                                                    GetCart()
+                                                }
+                                            }
+                                        ]
+                                    )
                                 }} />
                         )}
                         keyExtractor={item => item.id}

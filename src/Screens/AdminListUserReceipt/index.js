@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Alert, FlatList, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import AdminNotifiCationItem from '../../Components/AdminNotifiCationItem';
@@ -9,14 +9,12 @@ import Header from '../../Components/Header';
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { AuthContext } from '../../Components/Redux/AuthContext';
 import { database } from '../../Utils/firebase-Config';
-import { delAdminBill } from '../../Utils/firebase';
 
-export default AdminListReceipt = ({ navigation, route }) => {
+export default AdminListUserReceipt = ({ navigation }) => {
     const { token } = useContext(AuthContext)
     const [cart, setCart] = useState([])
-    const userId = route.params.userId
     const GetBill = () => {
-        const Ref = ref(database, 'AdminBills/' + userId)
+        const Ref = ref(database, 'accounts/')
         onValue(Ref, (snapshot) => {
             var returnArr = [];
             snapshot.forEach(function (childSnapshot) {
@@ -26,6 +24,20 @@ export default AdminListReceipt = ({ navigation, route }) => {
             setCart(returnArr)
         });
     }
+    const handleseach = (text) => {
+        if (text) {
+            const newData = cart.filter(function (item) {
+                const Data = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return Data.indexOf(textData) > -1;
+            });
+            setCart(newData)
+        } else {
+            GetBill()
+        }
+    }
 
     useEffect(() => {
         if (token.accountId != "") {
@@ -34,32 +46,23 @@ export default AdminListReceipt = ({ navigation, route }) => {
     }, [token.accountId])
     return (
         <SafeAreaView style={styles.container}>
-            <Header navigation={navigation} title={'Danh sách hóa đơn'} />
+            <Header navigation={navigation} title={'Danh khách hàng'} />
             <View style={{ paddingHorizontal: 15, flex: 1 }}>
                 <View style={styles.timKiem}>
+                    <SearchIcon color={Colors.gray} />
+                    <TextInput style={styles.inputSearch}
+                        placeholder='Tìm Kiếm...'
+                        value={cart}
+                        onChangeText={(e) => { handleseach(e) }} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <FlatList
                         data={cart}
                         renderItem={({ item }) => (
-                            <AdminNotifiCationItem name={item.id} title={"mã HD : "}
-                                onPress={() => navigation.navigate('AdminInvoiceDetails', { cart: item })}
-                                onPressDelete={() => {
-                                    Alert.alert(
-                                        "Thông báo",
-                                        "bạn có muốn xóa ?",
-                                        [
-                                            {
-                                                text: "Hủy",
-                                                style: "cancel"
-                                            },
-                                            {
-                                                text: "Đồng ý",
-                                                onPress: () => delAdminBill({ userId: userId, id: item.id })
-                                            }
-                                        ]
-                                    )
-                                }}
+                            <AdminNotifiCationItem name={item.name} title={"TênKH : "}
+                                onPress={() =>
+                                    navigation.navigate('AdminListReceipt', { userId: item.accountId })
+                                }
                             />
                         )}
                         keyExtractor={item => item.id}

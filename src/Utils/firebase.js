@@ -119,13 +119,27 @@ export const delCart = (data) => {
         alert(error)
     }
 }
+export const delOrder = (data) => {
+    try {
+        set(ref(database, 'orders/' + data.id), null)
+    } catch (error) {
+        alert(error)
+    }
+}
+
+export const delAdminBill = (data) => {
+    try {
+        set(ref(database, 'AdminBills/' + data.userId + '/' + data.id), null)
+    } catch (error) {
+        alert(error)
+    }
+}
 
 export const createCart = (data) => {
 
     try {
         const money = data.price * data.quantity
         var db_cart = ref(database, 'carts/')
-        // const newReference = push(db_cart);
         db_cart = ref(database, 'carts/' + data.userId + '/' + data.id)
         var cart = {
             id: data.id,
@@ -146,9 +160,7 @@ export const createCart = (data) => {
 
 
 export const createOrder = (data) => {
-
     try {
-
         var db_order = ref(database, 'orders/')
         const newReference = push(db_order);
         db_order = ref(database, 'orders/' + newReference.key)
@@ -164,7 +176,56 @@ export const createOrder = (data) => {
             carts: data.cart
         };
         set(db_order, order)
+        Alert.alert("Thông báo", "đặt thành công, chờ xác nhận từ cửa hàng")
+    } catch (error) {
+        alert(error)
+    }
+}
+
+export const createBill = (data) => {
+    try {
+
+        var db_bill = ref(database, 'AdminBills/')
+        db_bill = ref(database, 'AdminBills/' + data.userId + '/' + data.id)
+        var bill = {
+            id: data.id,
+            userId: data.userId,
+            userName: data.userName,
+            userPhone: data.phone,
+            userAddress: data.address,
+            quantity: data.quantity,
+            money: data.money,
+            carts: data.cart
+        };
+        set(db_bill, bill)
         Alert.alert("Thông báo", "đặt thành công")
+    } catch (error) {
+        alert(error)
+    }
+}
+
+export const createBillUser = (data) => {
+    try {
+        var db_bill = ref(database, 'bills/')
+        db_bill = ref(database, 'bills/' + data.userId + '/' + data.id)
+        var bill = {
+            id: data.id,
+            userId: data.userId,
+            userName: data.userName,
+            userPhone: data.phone,
+            userAddress: data.address,
+            quantity: data.quantity,
+            money: data.money,
+            carts: data.cart
+        };
+        set(db_bill, bill)
+    } catch (error) {
+        alert(error)
+    }
+}
+export const delBill = (data) => {
+    try {
+        set(ref(database, 'bills/' + data.userId + '/' + data.id), null)
     } catch (error) {
         alert(error)
     }

@@ -7,7 +7,16 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     timKiem: {
-        marginBottom: 20,
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderColor: Colors.gray,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        paddingRight: 20,
+        backgroundColor: Colors.white
     },
     inputSearch: {
         marginLeft: 5,

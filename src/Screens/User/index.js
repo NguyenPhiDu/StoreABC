@@ -84,7 +84,7 @@ export default User = ({ navigation }) => {
                             />
                             <ButtonProfileContrl title={'Quản lý hóa đơn'}
                                 icon={<ReceiptIcon color={Colors.black} />}
-                                onPress={() => navigation.navigate('AdminListReceipt')}
+                                onPress={() => navigation.navigate('AdminListUserReceipt')}
                             />
                             <ButtonProfileContrl title={'Quản lý sản phẩm'}
                                 icon={<CartIcon color={Colors.black} width={24} height={24} />}

@@ -18,6 +18,10 @@ import OrderConfirmation from './src/Screens/OrderConfirmation'
 import AdminProducts from './src/Screens/AdminProducts'
 import AdminEditProducts from './src/Screens/AdminEditProducts'
 import AdminAddProducts from './src/Screens/AdminAddProducts'
+import AdminNotificationDetail from './src/Screens/AdminNotificationDetail'
+import AdminInvoiceDetails from './src/Screens/AdminInvoiceDetails'
+import AdminListUserReceipt from './src/Screens/AdminListUserReceipt'
+import HistoryProductsDetails from './src/Screens/HistoryProductsDetails'
 import { AuthProvider } from './src/Components/Redux/AuthContext';
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +52,10 @@ export default function App() {
           <Stack.Screen name="AdminProducts" component={AdminProducts} options={{ headerShown: false }} />
           <Stack.Screen name="AdminEditProducts" component={AdminEditProducts} options={{ headerShown: false }} />
           <Stack.Screen name="AdminAddProducts" component={AdminAddProducts} options={{ headerShown: false }} />
+          <Stack.Screen name="AdminNotificationDetail" component={AdminNotificationDetail} options={{ headerShown: false }} />
+          <Stack.Screen name="AdminInvoiceDetails" component={AdminInvoiceDetails} options={{ headerShown: false }} />
+          <Stack.Screen name="AdminListUserReceipt" component={AdminListUserReceipt} options={{ headerShown: false }} />
+          <Stack.Screen name="HistoryProductsDetails" component={HistoryProductsDetails} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

@@ -160,7 +160,8 @@ export const createOrder = (data) => {
             userAddress: data.address,
             quantity: data.quantity,
             money: data.money,
-            trangThai: data.trangThai
+            trangThai: data.trangThai,
+            carts: data.cart
         };
         set(db_order, order)
         Alert.alert("Thông báo", "đặt thành công")

@@ -114,7 +114,8 @@ export default Order = ({ navigation, route }) => {
                             address: account.address,
                             quantity: quantity,
                             money: money,
-                            trangThai: false
+                            trangThai: false,
+                            cart: cart
                         })
                         navigation.navigate('Home')
                     }} />

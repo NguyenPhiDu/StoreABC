@@ -13,8 +13,8 @@ import { delCart } from '../../Utils/firebase'
 export default Cart = ({ navigation }) => {
     const { token } = useContext(AuthContext)
     const [cart, setCart] = useState([])
-    const [quantity, setQuantity] = useState()
-    const [money, setMoney] = useState()
+    const [quantity, setQuantity] = useState(0)
+    const [money, setMoney] = useState(0)
     const GetCart = () => {
         const Ref = ref(database, 'carts/' + token.accountId);
         onValue(Ref, (snapshot) => {
@@ -35,13 +35,21 @@ export default Cart = ({ navigation }) => {
                 money += cart[i].price * cart[i].quantity
                 quantity += cart[i].quantity
             }
+          
         }
         setMoney(money)
         setQuantity(quantity)
     }
+
     useEffect(() => {
-        GetCart()
-    }, [])
+        if (token.accountId != "") {
+            GetCart()
+            // const willFocusSubscription = navigation.addListener('focus', () => {
+            //     GetCart()
+            // })
+            // return willFocusSubscription
+        }
+    }, [token.accountId])
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.Fil}>
@@ -70,9 +78,11 @@ export default Cart = ({ navigation }) => {
                     /> : null}
             </View>
             <View style={{ margin: 5 }}>
-                <ButtonContrl
-                    title={'Đặt hàng'} color={Colors.white}
-                    onPress={() => navigation.navigate('Order', { quantity: quantity, money: money, cart: cart })} />
+                {token.accountId != "" ?
+                    <ButtonContrl
+                        title={'Đặt hàng'} color={Colors.white}
+                        onPress={() => navigation.navigate('Order', { quantity: quantity, money: money, cart: cart })} />
+                    : null}
             </View>
         </SafeAreaView >
     )

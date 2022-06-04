@@ -104,7 +104,7 @@ export default Home = ({ navigation }) => {
                                 data={DATA}
                                 renderItem={({ item }) => (
                                     <TheFirmItem img={item.img}
-                                        onPress={() => navigation.navigate('Products', { firm: "1" })} />
+                                        onPress={() => navigation.navigate('Products')} />
                                 )}
                                 keyExtractor={item => item.id}
                             />
@@ -113,7 +113,7 @@ export default Home = ({ navigation }) => {
                             <Text style={styles.ThuongHieu}>Sản Phẩm mới</Text>
                             <View style={styles.styleViewAll}>
                                 <TouchableOpacity
-                                    onPress={() => navigation.navigate('Products', { firm: item.firm })}>
+                                    onPress={() => navigation.navigate('Products')}>
                                     <Text style={styles.viewAll}>Xem tất cả</Text>
                                 </TouchableOpacity>
                             </View>
@@ -136,7 +136,7 @@ export default Home = ({ navigation }) => {
                             <Text style={styles.ThuongHieu}>Xu hướng mua sắm</Text>
                             <View style={styles.styleViewAll}>
                                 <TouchableOpacity
-                                    onPress={() => navigation.navigate('ProductsStack')}>
+                                    onPress={() => navigation.navigate('Products')}>
                                     <Text style={styles.viewAll}>Xem tất cả</Text>
                                 </TouchableOpacity>
                             </View>

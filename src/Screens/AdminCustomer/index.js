@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
@@ -8,38 +8,37 @@ import ButtonContrl from '../../Components/ButtonContrl';
 import DeleteIcon from '../../Icons/DeleteIcon';
 import SearchIcon from '../../Icons/SearchIcon';
 import Header from '../../Components/Header';
+import { database } from '../../Utils/firebase-Config';
+import { getDatabase, ref, set, onValue, push } from "firebase/database"
 
 export default AdminCustomer = ({ navigation }) => {
-    const DATA2 = [{
-        id: '1',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '20000000'
-    },
-    {
-        id: '2',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '3',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '4',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    },
-    {
-        id: '5',
-        img: GalaxyS22,
-        name: 'Điện thoại Samsung Galaxy S22 Ultra 5G 128GB',
-        price: '10000'
-    }];
+    const [user, setUser] = useState([])
+    const GetUser = () => {
+        const Ref = ref(database, `accounts/`)
+        onValue(Ref, (data) => {
+            let responselist1 = Object.values(data.val())
+            setUser(responselist1)
+
+        })
+    }
+
+    const handleseach = (text) => {
+        if (text) {
+            const newData = user.filter(function (item) {
+                const Data = item.name
+                    ? item.name.toUpperCase()
+                    : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return Data.indexOf(textData) > -1;
+            });
+            setUser(newData)
+        } else {
+            GetUser()
+        }
+    }
+    useEffect(() => {
+        GetUser()
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} title={'Danh sách khách hàng'} />
@@ -47,14 +46,20 @@ export default AdminCustomer = ({ navigation }) => {
                 <View style={styles.timKiem}>
                     <SearchIcon color={Colors.gray} />
                     <TextInput style={styles.inputSearch}
-                        placeholder='Tìm Kiếm...' />
+                        placeholder='Tìm Kiếm...'
+                        value={user}
+                        onChangeText={(e) => { handleseach(e) }} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        data={DATA2}
+                        data={user}
                         renderItem={({ item }) => (
-                            <CustomerItem img={item.img} name={item.name} price={item.price}
-                            onPress={() => navigation.navigate('Receipt')} 
+                            <CustomerItem
+                                MaKH={item.accountId}
+                                TenKH={item.name}
+                                SDT={item.phone}
+                                address={item.address}
+                            //onPress={() => navigation.navigate('Receipt')}
                             />
                         )}
                         keyExtractor={item => item.id}
@@ -65,7 +70,7 @@ export default AdminCustomer = ({ navigation }) => {
                         title={'Trở về'}
                         color={Colors.white}
                         onPress={() => navigation.goBack()}
-                         />
+                    />
                 </View>
             </View>
 

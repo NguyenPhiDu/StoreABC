@@ -5,14 +5,16 @@ import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import Header from '../../Components/Header';
 import ButtonContrl from '../../Components/ButtonContrl';
-import { createProduct, Default_Image_Add } from '../../Utils/firebase';
+import { createProduct } from '../../Utils/firebase';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 
 export default AdminAddProducts = ({ navigation }) => {
-    const [img1, setImg1] = useState("")
-    const [img2, setImg2] = useState("")
-    const [img3, setImg3] = useState("")
+    const imgTemp = "https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/Products%2F1654448203619.png?alt=media&token=5a1565ba-9bd4-4d13-bb1e-f0b68c57e0c9"
+
+    const [img1, setImg1] = useState("https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/Products%2F1654448203619.png?alt=media&token=5a1565ba-9bd4-4d13-bb1e-f0b68c57e0c9")
+    const [img2, setImg2] = useState("https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/Products%2F1654448203619.png?alt=media&token=5a1565ba-9bd4-4d13-bb1e-f0b68c57e0c9")
+    const [img3, setImg3] = useState("https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/Products%2F1654448203619.png?alt=media&token=5a1565ba-9bd4-4d13-bb1e-f0b68c57e0c9")
     const [product, setProduct] = useState({
         name: "",
         quantity: "",
@@ -59,9 +61,9 @@ export default AdminAddProducts = ({ navigation }) => {
                 setImg3(path);
                 break;
             default:
-                setImg1(Default_Image_Add)
-                setImg2(Default_Image_Add)
-                setImg3(Default_Image_Add)
+                setImg1(imgTemp)
+                setImg2(imgTemp)
+                setImg3(imgTemp)
                 break;
         }
     }
@@ -99,7 +101,7 @@ export default AdminAddProducts = ({ navigation }) => {
                     <View style={{
                         marginLeft: 10
                     }}>
-                        <Image source={{ uri: img1 || Default_Image_Add }} style={{
+                        <Image source={{ uri: img1 || imgTemp }} style={{
                             width: 100,
                             height: 100
                         }} />
@@ -114,7 +116,7 @@ export default AdminAddProducts = ({ navigation }) => {
                         }} onPress={() => { choosePhotoFromLibrary(1) }}>
                             <Text style={styles.buttonText}>chọn ảnh</Text>
                         </TouchableOpacity>
-                        <Image source={{ uri: img2 || Default_Image_Add }} style={{
+                        <Image source={{ uri: img2 || imgTemp }} style={{
                             width: 100,
                             height: 100
                         }} />
@@ -130,7 +132,7 @@ export default AdminAddProducts = ({ navigation }) => {
                         }} onPress={() => { choosePhotoFromLibrary(2) }}>
                             <Text style={styles.buttonText}>chọn ảnh</Text>
                         </TouchableOpacity>
-                        <Image source={{ uri: img3 || Default_Image_Add }} style={{
+                        <Image source={{ uri: img3 || imgTemp }} style={{
                             width: 100,
                             height: 100
                         }} />

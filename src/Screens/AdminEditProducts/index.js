@@ -44,6 +44,9 @@ export default AdminEditProducts = ({ navigation, route }) => {
         pin: "",
         price: "",
         firm: "",
+        img1: "",
+        img2: "",
+        img3: "",
     })
 
     const GetProduct = () => {
@@ -64,6 +67,9 @@ export default AdminEditProducts = ({ navigation, route }) => {
                     pin: data.val().pin,
                     price: data.val().price,
                     firm: data.val().firm,
+                    img1: data.val().img1,
+                    img2: data.val().img2,
+                    img3: data.val().img3,
                 })
             })
     }

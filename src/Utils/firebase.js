@@ -4,7 +4,6 @@ import { auth } from "./firebase-Config"
 import { getDatabase, ref, set, onValue, push } from "firebase/database"
 import { sendPasswordResetEmail } from 'firebase/auth';
 const database = getDatabase()
-export const Default_Image_Add = "https://firebasestorage.googleapis.com/v0/b/storeabc-73ccd.appspot.com/o/imgProduct%2F1654103052016.png?alt=media&token=88426b43-b7ce-4912-b84e-2d62b3fb04d1"
 export const createAccount = (data) => {
     const db_account = ref(database, "accounts" + "/" + data.uid)
     var account = {
@@ -55,6 +54,9 @@ export const UpdateProduct = (data) => {
             pin: data.pin,
             price: data.price,
             firm: data.firm,
+            img1: data.img1,
+            img2: data.img2,
+            img3: data.img3,
         };
         set(db_product, product)
         Alert.alert("Thông báo", "Cập nhật thành công")

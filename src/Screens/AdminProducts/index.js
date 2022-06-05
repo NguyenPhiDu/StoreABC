@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView, View, Text, TextInput, FlatList, LogBox, TouchableOpacity, Alert } from "react-native";
 import { Colors } from '../../Utils/Color';
 import GalaxyS22 from '../../static/images/GalaxyS22.jpg'
 import { styles } from './styles';
@@ -39,10 +39,11 @@ export default AdminProducts = ({ navigation }) => {
     }
     useEffect(() => {
         GetProduct()
-        // const willFocusSubscription = navigation.addListener('focus', () => {
-        //     //GetProduct()
-        // })
-        // return willFocusSubscription
+        LogBox.ignoreAllLogs();
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            LogBox.ignoreAllLogs();
+        })
+        return willFocusSubscription
     }, [])
     return (
         <SafeAreaView style={styles.container}>

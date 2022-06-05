@@ -12,8 +12,8 @@ export default NotifiCationItem = (props) => {
             <View style={styles.viewImg}>
                 <NotificationIcon2 color={Colors.orange} width={25} height={27} />
             </View>
-            <View style={{ flex: 3, paddingLeft: 20, justifyContent: 'center' }}>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 3, }}>
+                <View style={{ flex: 1,}}>
                     <Text style={{ color: Colors.black, fontSize: 13 }}>{props.title}</Text>
                     <Text style={styles.name}>{props.name}</Text>
                 </View>

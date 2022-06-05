@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, View, Text, TextInput, FlatList, ScrollView, LogBox, TouchableOpacity } from "react-native";
 import { Colors } from '../../Utils/Color';
 import { styles } from './styles';
 import ProductsItem from '../../Components/ProductsItem';
@@ -41,6 +41,7 @@ export default Products = ({ navigation, route }) => {
     }
     useEffect(() => {
         GetProduct()
+        LogBox.ignoreAllLogs();
     }, [])
     return (
         <SafeAreaView style={styles.container}>
@@ -73,15 +74,7 @@ export default Products = ({ navigation, route }) => {
                     keyExtractor={item => item.id}
                 />
             </View>
-            <View style={styles.Fil}>
-                <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                    <FilterIcon color={Colors.orange} height={24} width={24} />
-                    <Text style={styles.SapXep}>Bộ lọc</Text>
-                </TouchableOpacity>
-                <View style={{ flex: 1, alignItems: 'flex-end', flexDirection: 'row-reverse' }}>
-                    <Text style={styles.SapXep}>Xếp theo</Text>
-                </View>
-            </View>
+           
         </SafeAreaView>
     );
 };

@@ -12,8 +12,8 @@ export const styles = StyleSheet.create({
         
     },
     ImageBackground: {
-        height: 350,
-        width: 350,
+        height: 300,
+        width: 300,
     },
     dot: {
         //paddingHorizontal: 20

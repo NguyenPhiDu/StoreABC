@@ -84,7 +84,7 @@ export default Home = ({ navigation }) => {
                     <ScrollView>
                         <View style={{
                             justifyContent: 'center',
-                            marginLeft: 15,
+                            marginLeft: 5,
                             marginBottom: 10
                         }}>
                             <SliderBox

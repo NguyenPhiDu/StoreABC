@@ -41,7 +41,7 @@ export default HistoryProducts = ({ navigation }) => {
                     <FlatList
                         data={cart}
                         renderItem={({ item }) => (
-                            <AdminNotifiCationItem name={item.id} title={"mã HD : "}
+                            <AdminNotifiCationItem name={item.id} title={"Mã Hóa đơn:"}
                                 onPress={() => navigation.navigate('HistoryProductsDetails', { cart: item })}
                                 onPressDelete={() => {
                                     Alert.alert(
